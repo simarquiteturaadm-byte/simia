@@ -1,0 +1,1826 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Do Terreno à Casa Pronta – Timelapse e Vídeos Profissionais de Arquitetura</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --warm-white: #FAF8F4;
+    --charcoal: #1A1814;
+    --ink: #2D2A24;
+    --sand: #C4B49A;
+    --gold: #B8965A;
+    --gold-light: #D4A96A;
+    --rust: #8B4A2F;
+    --sage: #6B7B6E;
+    --dark-bg: #111009;
+    --section-dark: #151310;
+    --border: rgba(196,180,154,0.25);
+    --text-muted: #7A7060;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark-bg);
+    color: var(--cream);
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.6;
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  .display { font-family: 'Playfair Display', serif; }
+  .mono { font-family: 'DM Mono', monospace; }
+
+  h1, h2, h3 { font-family: 'Playfair Display', serif; line-height: 1.15; }
+
+  /* ─── UTILITY ─── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+  .container--narrow { max-width: 780px; margin: 0 auto; padding: 0 2rem; }
+
+  .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .label::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .gold-line {
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin: 1.5rem 0;
+  }
+
+  /* ─── BUTTONS ─── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.1rem 2.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    letter-spacing: 0.02em;
+  }
+
+  .btn--primary {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    color: var(--charcoal);
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+  .btn--primary:hover {
+    background: linear-gradient(135deg, var(--gold-light) 0%, #E8C080 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(184,150,90,0.4);
+  }
+
+  .btn--outline {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+  .btn--outline:hover {
+    background: rgba(184,150,90,0.1);
+  }
+
+  .btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    position: relative;
+    overflow: hidden;
+    background: var(--charcoal);
+  }
+
+  .hero__grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(184,150,90,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184,150,90,0.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+  }
+
+  .hero__glow {
+    position: absolute;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(184,150,90,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero__glow-bottom {
+    position: absolute;
+    bottom: -100px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(139,74,47,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  nav {
+    position: relative;
+    z-index: 10;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav__logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--cream);
+    letter-spacing: 0.03em;
+  }
+  .nav__logo span { color: var(--gold); }
+
+  .nav__cta { font-size: 0.85rem; }
+
+  .hero__content {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+  }
+
+  .hero__eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(184,150,90,0.3);
+    padding: 0.5rem 1.25rem;
+    margin-bottom: 2.5rem;
+    backdrop-filter: blur(4px);
+  }
+
+  .hero__title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    font-weight: 900;
+    line-height: 1.0;
+    color: var(--cream);
+    max-width: 900px;
+    margin-bottom: 1rem;
+  }
+
+  .hero__title em {
+    font-style: italic;
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero__subtitle-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    margin: 2rem auto;
+  }
+
+  .hero__subtitle {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--sand);
+    max-width: 680px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    font-weight: 300;
+  }
+
+  .hero__cta-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 4rem;
+  }
+
+  .hero__stats {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+  }
+
+  .stat {
+    text-align: center;
+    padding: 0 3rem;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+
+  .stat__number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+  }
+
+  .stat__label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ─── SECTION BASE ─── */
+  section {
+    position: relative;
+  }
+
+  .section--dark {
+    background: var(--section-dark);
+  }
+
+  .section--darker {
+    background: var(--charcoal);
+  }
+
+  .section--cream {
+    background: #1C1A15;
+  }
+
+  .section-inner {
+    padding: 7rem 0;
+  }
+
+  /* ─── PROBLEM SECTION ─── */
+  #problem {
+    background: linear-gradient(180deg, var(--section-dark) 0%, #0E0C09 100%);
+  }
+
+  .problem__layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .problem__visual {
+    position: relative;
+  }
+
+  .problem__frame {
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    background: linear-gradient(135deg, rgba(184,150,90,0.05), transparent);
+    position: relative;
+  }
+
+  .problem__frame::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: -8px;
+    bottom: -8px;
+    border: 1px solid rgba(184,150,90,0.15);
+    z-index: -1;
+  }
+
+  .problem__icon-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .icon-box {
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    background: rgba(184,150,90,0.05);
+    flex-shrink: 0;
+  }
+
+  .problem__quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--sand);
+    line-height: 1.8;
+    border-left: 2px solid var(--gold);
+    padding-left: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .problem__h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .problem__h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .problem__body {
+    color: var(--sand);
+    font-size: 1.05rem;
+    line-height: 1.9;
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+
+  .problem__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .problem__list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    color: var(--cream);
+    font-size: 0.95rem;
+  }
+
+  .problem__list li::before {
+    content: '→';
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  /* ─── LEARN SECTION ─── */
+  #learn {
+    background: var(--charcoal);
+  }
+
+  .learn__header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .learn__header h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .learn__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+
+  .learn__item {
+    padding: 2.5rem 2rem;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    transition: background 0.3s;
+  }
+
+  .learn__item:hover {
+    background: rgba(184,150,90,0.05);
+  }
+
+  .learn__item:nth-child(4n) { border-right: none; }
+  .learn__item:nth-child(n+5) { border-bottom: none; }
+
+  .learn__num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gold);
+    opacity: 0.6;
+    letter-spacing: 0.15em;
+    margin-bottom: 1rem;
+  }
+
+  .learn__icon {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .learn__item h3 {
+    font-size: 0.95rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+
+  .learn__item p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ─── RESULTS ─── */
+  #results {
+    background: linear-gradient(180deg, #0E0C09 0%, var(--section-dark) 100%);
+  }
+
+  .results__header {
+    text-align: center;
+    margin-bottom: 5rem;
+  }
+
+  .results__header h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .results__header h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .results__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    background: var(--border);
+  }
+
+  .result__card {
+    background: var(--section-dark);
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .result__card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .result__card:hover::before { opacity: 1; }
+
+  .result__number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: rgba(184,150,90,0.12);
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .result__card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--cream);
+  }
+
+  .result__card p {
+    font-size: 0.9rem;
+    color: var(--sand);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  /* ─── FOR WHO ─── */
+  #forwho {
+    background: var(--charcoal);
+  }
+
+  .forwho__layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .forwho__left h2 {
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .forwho__left h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .forwho__left p {
+    color: var(--sand);
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+
+  .forwho__checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .forwho__checklist li {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1.2rem 1.5rem;
+    border: 1px solid var(--border);
+    font-size: 0.9rem;
+    color: var(--cream);
+    line-height: 1.5;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .forwho__checklist li:hover {
+    border-color: rgba(184,150,90,0.5);
+    background: rgba(184,150,90,0.04);
+  }
+
+  .check {
+    color: var(--gold);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .forwho__note {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(184,150,90,0.3);
+    background: rgba(184,150,90,0.05);
+    font-size: 0.88rem;
+    color: var(--gold-light);
+    line-height: 1.7;
+  }
+
+  /* ─── MODULES ─── */
+  #modules {
+    background: linear-gradient(180deg, var(--section-dark) 0%, #0E0C09 100%);
+  }
+
+  .modules__header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .modules__header h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .modules__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+
+  .module {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .module:last-child { border-bottom: none; }
+  .module:hover { background: rgba(184,150,90,0.04); }
+
+  .module__num-col {
+    padding: 2.5rem;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-width: 110px;
+    background: rgba(0,0,0,0.2);
+  }
+
+  .module__num-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .module__num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .module__body {
+    padding: 2.5rem;
+  }
+
+  .module__tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .module__title {
+    font-size: 1.15rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 0.75rem;
+  }
+
+  .module__desc {
+    font-size: 0.88rem;
+    color: var(--sand);
+    line-height: 1.8;
+    font-weight: 300;
+    max-width: 650px;
+  }
+
+  /* ─── BONUS ─── */
+  #bonus {
+    background: var(--charcoal);
+  }
+
+  .bonus__header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .bonus__header h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .bonus__header h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .bonus__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .bonus__card {
+    padding: 2.5rem;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    background: rgba(0,0,0,0.2);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .bonus__card:hover {
+    border-color: rgba(184,150,90,0.5);
+    transform: translateY(-3px);
+  }
+
+  .bonus__card::after {
+    content: 'BÔNUS';
+    position: absolute;
+    top: 1.5rem;
+    right: -1.5rem;
+    background: var(--gold);
+    color: var(--charcoal);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    padding: 0.3rem 2.5rem;
+    transform: rotate(45deg);
+  }
+
+  .bonus__emoji {
+    font-size: 2rem;
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .bonus__card h3 {
+    font-size: 1.05rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--cream);
+  }
+
+  .bonus__card p {
+    font-size: 0.85rem;
+    color: var(--sand);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  /* ─── ABOUT ─── */
+  #about {
+    background: linear-gradient(180deg, #0E0C09 0%, var(--section-dark) 100%);
+  }
+
+  .about__layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .about__left h2 {
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .about__left p {
+    color: var(--sand);
+    font-weight: 300;
+    line-height: 1.9;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .about__includes {
+    margin-top: 2.5rem;
+  }
+
+  .about__includes h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+  }
+
+  .include__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .include__list li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: var(--cream);
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(196,180,154,0.1);
+  }
+
+  .include__list li:last-child { border-bottom: none; }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .about__visual {
+    position: relative;
+  }
+
+  .about__card-stack {
+    position: relative;
+  }
+
+  .about__card {
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    background: rgba(184,150,90,0.03);
+  }
+
+  .about__card--back {
+    position: absolute;
+    top: -12px;
+    left: 12px;
+    right: -12px;
+    bottom: 12px;
+    border: 1px solid rgba(184,150,90,0.1);
+    z-index: -1;
+  }
+
+  .about__metric {
+    text-align: center;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+  }
+
+  .about__metric:last-child { border-bottom: none; margin-bottom: 0; }
+
+  .about__metric-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .about__metric-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+  }
+
+  /* ─── PRICING ─── */
+  #pricing {
+    background: var(--charcoal);
+  }
+
+  .pricing__header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .pricing__header h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 1rem;
+  }
+
+  .pricing__header p {
+    color: var(--sand);
+    font-size: 1.05rem;
+    font-weight: 300;
+  }
+
+  .pricing__card {
+    max-width: 700px;
+    margin: 0 auto;
+    border: 1px solid rgba(184,150,90,0.4);
+    background: linear-gradient(135deg, rgba(184,150,90,0.06), rgba(26,24,20,0.8));
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pricing__card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .pricing__top {
+    padding: 3rem;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .pricing__badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--charcoal);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.4rem 1.25rem;
+    margin-bottom: 2rem;
+    font-weight: 500;
+  }
+
+  .pricing__old {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    text-decoration: line-through;
+    font-family: 'DM Mono', monospace;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .pricing__price {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 8vw, 5.5rem);
+    font-weight: 900;
+    color: var(--cream);
+    line-height: 1;
+  }
+
+  .pricing__price sup {
+    font-size: 0.35em;
+    vertical-align: super;
+    color: var(--gold);
+  }
+
+  .pricing__installments {
+    font-size: 0.85rem;
+    color: var(--sand);
+    margin-top: 1rem;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .pricing__middle {
+    padding: 2.5rem 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pricing__features {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem 2rem;
+  }
+
+  .pricing__features li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.88rem;
+    color: var(--cream);
+  }
+
+  .pricing__features li .check {
+    font-size: 0.75rem;
+  }
+
+  .pricing__bottom {
+    padding: 2.5rem 3rem;
+    text-align: center;
+  }
+
+  .pricing__btn {
+    width: 100%;
+    justify-content: center;
+    font-size: 1.05rem;
+    padding: 1.3rem 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .pricing__guarantee {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .pricing__guarantee::before,
+  .pricing__guarantee::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ─── FINAL CTA ─── */
+  #cta-final {
+    background: linear-gradient(180deg, var(--charcoal) 0%, #0A0906 100%);
+    text-align: center;
+  }
+
+  .cta__h2 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .cta__h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .cta__p {
+    color: var(--sand);
+    font-size: 1.05rem;
+    font-weight: 300;
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    line-height: 1.8;
+  }
+
+  .cta__trust {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .trust__item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  .trust__item span:first-child {
+    color: var(--gold);
+    font-size: 0.85rem;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #080705;
+    border-top: 1px solid var(--border);
+    padding: 4rem 2rem;
+  }
+
+  .footer__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .footer__brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--cream);
+    margin-bottom: 0.75rem;
+  }
+
+  .footer__brand span { color: var(--gold); }
+
+  .footer__tagline {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    max-width: 300px;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer__contact {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--gold);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .footer__right {
+    text-align: right;
+  }
+
+  .footer__links {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    justify-content: flex-end;
+  }
+
+  .footer__links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .footer__links a:hover { color: var(--gold); }
+
+  .footer__social {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-bottom: 2rem;
+  }
+
+  .social__icon {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .social__icon:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .footer__copy {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .footer__legal {
+    font-size: 0.7rem;
+    color: rgba(122,112,96,0.5);
+    line-height: 1.6;
+    max-width: 500px;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    grid-column: 1 / -1;
+  }
+
+  /* ─── SCROLL ANIMATIONS ─── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .fade-up-delay-1 { transition-delay: 0.1s; }
+  .fade-up-delay-2 { transition-delay: 0.2s; }
+  .fade-up-delay-3 { transition-delay: 0.3s; }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 3rem 0;
+    opacity: 0.3;
+  }
+
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .divider__icon {
+    color: var(--gold);
+    font-size: 0.8rem;
+    font-family: 'DM Mono', monospace;
+    white-space: nowrap;
+    letter-spacing: 0.2em;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .problem__layout,
+    .forwho__layout,
+    .about__layout { grid-template-columns: 1fr; gap: 3rem; }
+
+    .learn__grid { grid-template-columns: repeat(2, 1fr); }
+    .learn__item:nth-child(4n) { border-right: 1px solid var(--border); }
+    .learn__item:nth-child(2n) { border-right: none; }
+    .learn__item:nth-child(n+5) { border-bottom: 1px solid var(--border); }
+    .learn__item:nth-child(n+7) { border-bottom: none; }
+
+    .results__grid { grid-template-columns: 1fr; }
+
+    .bonus__grid { grid-template-columns: 1fr; }
+
+    .pricing__features { grid-template-columns: 1fr; }
+
+    .hero__stats { flex-direction: column; gap: 1.5rem; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); padding: 1.5rem 0; }
+    .stat:last-child { border-bottom: none; }
+
+    .footer__inner { grid-template-columns: 1fr; gap: 2rem; }
+    .footer__right { text-align: left; }
+    .footer__links, .footer__social { justify-content: flex-start; }
+
+    .module {
+      grid-template-columns: 1fr;
+    }
+    .module__num-col {
+      flex-direction: row;
+      gap: 0.75rem;
+      align-items: center;
+      min-width: unset;
+      padding: 1.25rem 2rem;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .learn__grid { grid-template-columns: 1fr; }
+    .learn__item { border-right: none !important; }
+    .learn__item:nth-child(n+7) { border-bottom: 1px solid var(--border) !important; }
+    .learn__item:last-child { border-bottom: none !important; }
+
+    .pricing__top,
+    .pricing__middle,
+    .pricing__bottom { padding: 2rem 1.5rem; }
+
+    .hero__cta-group { flex-direction: column; align-items: center; }
+    .btn { width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ HERO -->
+<section id="hero">
+  <div class="hero__grid-bg"></div>
+  <div class="hero__glow"></div>
+  <div class="hero__glow-bottom"></div>
+
+  <nav>
+    <div class="nav__logo">Do Terreno à <span>Casa Pronta</span></div>
+    <a href="https://pay.hotmart.com/V105156102R" target="_blank" rel="noopener noreferrer" class="btn btn--outline nav__cta">
+      Quero me inscrever
+    </a>
+  </nav>
+
+  <div class="hero__content">
+    <div class="hero__eyebrow">Minicurso Online para Arquitetos</div>
+    <h1 class="hero__title">
+      Do Terreno à
+      <em>Casa Pronta</em>
+    </h1>
+    <div class="hero__subtitle-line"></div>
+    <p class="hero__subtitle">
+      Transforme seus projetos e renders em vídeos de timelapse de construção e apresentações cinematográficas que impressionam clientes, vencem concursos e elevam o nível do seu portfólio.
+    </p>
+    <div class="hero__cta-group">
+      <a href="https://pay.hotmart.com/V105156102R" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Quero me inscrever agora
+      </a>
+      <a href="#modules" class="btn btn--outline">Ver conteúdo do curso</a>
+    </div>
+  </div>
+
+  <div class="hero__stats">
+    <div class="stat">
+      <span class="stat__number">6</span>
+      <span class="stat__label">Módulos</span>
+    </div>
+    <div class="stat">
+      <span class="stat__number">4</span>
+      <span class="stat__label">Bônus exclusivos</span>
+    </div>
+    <div class="stat">
+      <span class="stat__number">∞</span>
+      <span class="stat__label">Acesso vitalício</span>
+    </div>
+    <div class="stat">
+      <span class="stat__number">7d</span>
+      <span class="stat__label">Garantia total</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ PROBLEM -->
+<section id="problem">
+  <div class="section-inner">
+    <div class="container">
+      <div class="problem__layout">
+        <div class="problem__visual fade-up">
+          <div class="problem__frame">
+            <div class="problem__icon-row">
+              <div class="icon-box">📐</div>
+              <div class="icon-box">🏗️</div>
+              <div class="icon-box">🎬</div>
+            </div>
+            <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.7;margin-bottom:1.5rem;">
+              Arquitetos com projetos excepcionais que ficam presos em PDFs estáticos, sem conseguir transmitir a emoção e o valor real do trabalho.
+            </p>
+            <blockquote class="problem__quote">
+              "O cliente olha, acena com a cabeça... e vai embora sem sentir nada."
+            </blockquote>
+          </div>
+        </div>
+
+        <div class="fade-up fade-up-delay-1">
+          <span class="label">O problema</span>
+          <h2 class="problem__h2">Seu projeto é bom.<br><em>Mas o cliente ainda<br>não enxerga isso.</em></h2>
+          <p class="problem__body">
+            Você passa semanas desenvolvendo um projeto, aperfeiçoa cada detalhe, entrega renders impecáveis — e na hora de apresentar, tudo cai num PDF ou numa série de imagens estáticas.
+          </p>
+          <p class="problem__body">
+            Vivemos numa era visual e em movimento. Vídeos geram emoção. Emoção gera decisão. E quem domina a comunicação visual sai na frente.
+          </p>
+          <p style="font-size:0.85rem;color:var(--gold);font-family:'DM Mono',monospace;letter-spacing:0.08em;margin-bottom:1rem;">Arquitetos que dominam vídeo:</p>
+          <ul class="problem__list">
+            <li>Fecham contratos com muito mais facilidade</li>
+            <li>Constroem portfólios que se destacam da concorrência</li>
+            <li>Ganham visibilidade orgânica nas redes sociais</li>
+            <li>São percebidos como profissionais de alto nível</li>
+            <li>Documentam obras como ativos permanentes de marketing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ LEARN -->
+<section id="learn" class="section--darker">
+  <div class="section-inner">
+    <div class="container">
+      <div class="learn__header fade-up">
+        <span class="label">Aprendizados</span>
+        <h2>O que você vai aprender<br>neste minicurso</h2>
+      </div>
+
+      <div class="learn__grid fade-up fade-up-delay-1">
+        <div class="learn__item">
+          <div class="learn__num">01</div>
+          <span class="learn__icon">🎬</span>
+          <h3>Planejar e estruturar um vídeo de timelapse</h3>
+          <p>Do conceito ao roteiro, aprenda a organizar sua produção antes de gravar a primeira cena.</p>
+        </div>
+        <div class="learn__item">
+          <div class="learn__num">02</div>
+          <span class="learn__icon">🖼️</span>
+          <h3>Transformar renders em sequências animadas</h3>
+          <p>Dê vida às suas imagens estáticas com movimentos de câmera, transições e ritmo visual.</p>
+        </div>
+        <div class="learn__item">
+          <div class="learn__num">03</div>
+          <span class="learn__icon">🛠️</span>
+          <h3>Softwares acessíveis para edição profissional</h3>
+          <p>Descubra as ferramentas certas para produzir vídeos de alta qualidade sem investimento excessivo.</p>
+        </div>
+        <div class="learn__item">
+          <div class="learn__num">04</div>
+          <span class="learn__icon">📖</span>
+          <h3>Criar narrativas visuais com storytelling</h3>
+          <p>Conte a história do projeto — do terreno à entrega — de forma envolvente e emocional.</p>
+        </div>
+        <div class="learn__item">
+          <div class="learn__num">05</div>
+          <span class="learn__icon">🎵</span>
+          <h3>Técnicas de transição, ritmo e trilha sonora</h3>
+          <p>Aplique os elementos que fazem um vídeo prender a atenção do início ao fim.</p>
+        </div>
+        <div class="learn__item">
+          <div class="learn__num">06</div>
+          <span class="learn__icon">🏆</span>
+          <h3>Vídeos para clientes, redes e concursos</h3>
+          <p>Produza apresentações sob medida para cada contexto: reunião, Instagram, YouTube ou concurso.</p>
+        </div>
+        <div class="learn__item">
+          <div class="learn__num">07</div>
+          <span class="learn__icon">📤</span>
+          <h3>Exportar nos formatos ideais para cada plataforma</h3>
+          <p>Entregue seus vídeos com a qualidade certa para cada destino, sem perda de resolução.</p>
+        </div>
+        <div class="learn__item">
+          <div class="learn__num">08</div>
+          <span class="learn__icon">💼</span>
+          <h3>Montar um portfólio em vídeo que posiciona você</h3>
+          <p>Use seus vídeos como ferramenta estratégica de marketing e construção de autoridade.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ RESULTS -->
+<section id="results">
+  <div class="section-inner">
+    <div class="container">
+      <div class="results__header fade-up">
+        <span class="label">Transformação</span>
+        <h2>O que muda na sua carreira<br><em>depois deste curso</em></h2>
+      </div>
+
+      <div class="results__grid fade-up fade-up-delay-1">
+        <div class="result__card">
+          <div class="result__number">01</div>
+          <h3>Impressione clientes na apresentação</h3>
+          <p>Substitua o PDF estático por uma experiência visual que emociona e convence. Clientes que assistem a vídeos profissionais tomam decisões com muito mais confiança e velocidade.</p>
+        </div>
+        <div class="result__card">
+          <div class="result__number">02</div>
+          <h3>Crie conteúdo de alto valor para redes sociais</h3>
+          <p>Vídeos de timelapse de obras geram engajamento enorme. Você terá material premium para postar e atrair novos clientes organicamente, todos os meses.</p>
+        </div>
+        <div class="result__card">
+          <div class="result__number">03</div>
+          <h3>Documente suas obras com inteligência</h3>
+          <p>Aprenda a registrar a evolução de uma construção de forma estratégica, transformando a obra em um ativo permanente de marketing e autoridade no mercado.</p>
+        </div>
+        <div class="result__card">
+          <div class="result__number">04</div>
+          <h3>Diferencie seu portfólio da concorrência</h3>
+          <p>Enquanto a maioria dos arquitetos apresenta imagens, você vai apresentar experiências. Isso transforma completamente a percepção de valor do seu trabalho.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ FOR WHO -->
+<section id="forwho" class="section--darker">
+  <div class="section-inner">
+    <div class="container">
+      <div class="forwho__layout">
+        <div class="forwho__left fade-up">
+          <span class="label">Para quem é</span>
+          <h2>Este curso é<br><em>para você?</em></h2>
+          <p>
+            Este minicurso foi desenvolvido para quem quer usar o poder do vídeo para comunicar projetos de arquitetura com mais impacto, elegância e resultados concretos.
+          </p>
+          <div class="forwho__note">
+            ✦ Não é necessário ter experiência prévia com edição de vídeo. O curso foi pensado para quem está começando do zero, mas também entrega valor a quem já tem algum conhecimento e quer se aperfeiçoar.
+          </div>
+        </div>
+
+        <div class="fade-up fade-up-delay-1">
+          <ul class="forwho__checklist">
+            <li>
+              <span class="check">✓</span>
+              Você é arquiteto e quer apresentar seus projetos de forma mais profissional e diferenciada
+            </li>
+            <li>
+              <span class="check">✓</span>
+              Você é estudante de arquitetura e quer se preparar com habilidades que poucos têm
+            </li>
+            <li>
+              <span class="check">✓</span>
+              Você tem renders e imagens parados e não sabe como transformá-los em conteúdo visual de valor
+            </li>
+            <li>
+              <span class="check">✓</span>
+              Você quer criar vídeos para suas redes sociais e não sabe por onde começar
+            </li>
+            <li>
+              <span class="check">✓</span>
+              Você acompanha obras e quer documentar a evolução da construção de forma estratégica
+            </li>
+            <li>
+              <span class="check">✓</span>
+              Você quer se destacar em concursos e captação de clientes com apresentações em vídeo
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ MODULES -->
+<section id="modules">
+  <div class="section-inner">
+    <div class="container">
+      <div class="modules__header fade-up">
+        <span class="label">Grade do curso</span>
+        <h2>O que você encontra<br>dentro do curso</h2>
+      </div>
+
+      <div class="modules__list fade-up fade-up-delay-1">
+        <div class="module">
+          <div class="module__num-col">
+            <span class="module__num-label">Módulo</span>
+            <span class="module__num">01</span>
+          </div>
+          <div class="module__body">
+            <span class="module__tag">Fundamentos</span>
+            <div class="module__title">Fundamentos do Vídeo para Arquitetura</div>
+            <p class="module__desc">Entenda a lógica do storytelling visual aplicado à arquitetura. Aprenda como planejar um vídeo antes de começar a produzir, quais ferramentas usar e como estruturar sua produção com eficiência.</p>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module__num-col">
+            <span class="module__num-label">Módulo</span>
+            <span class="module__num">02</span>
+          </div>
+          <div class="module__body">
+            <span class="module__tag">Renders em Movimento</span>
+            <div class="module__title">Do Projeto ao Vídeo: Renders em Movimento</div>
+            <p class="module__desc">Transforme imagens e renders estáticos em sequências animadas com vida. Aprenda técnicas de movimento de câmera, transição entre etapas do projeto e como criar a sensação de evolução visual.</p>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module__num-col">
+            <span class="module__num-label">Módulo</span>
+            <span class="module__num">03</span>
+          </div>
+          <div class="module__body">
+            <span class="module__tag">Timelapse de Obra</span>
+            <div class="module__title">Timelapse de Construção: Do Planejamento à Edição</div>
+            <p class="module__desc">Descubra como planejar e executar um timelapse de obra do zero. Aprenda a capturar imagens em campo, organizar o material e montar um vídeo de construção que conta a história da obra de forma fascinante.</p>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module__num-col">
+            <span class="module__num-label">Módulo</span>
+            <span class="module__num">04</span>
+          </div>
+          <div class="module__body">
+            <span class="module__tag">Edição Profissional</span>
+            <div class="module__title">Edição Profissional e Identidade Visual</div>
+            <p class="module__desc">Aplique técnicas de edição, ritmo, corte e trilha sonora para criar vídeos com cara de produção profissional. Aprenda a inserir legendas, logotipos, créditos e manter a identidade visual do seu escritório.</p>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module__num-col">
+            <span class="module__num-label">Módulo</span>
+            <span class="module__num">05</span>
+          </div>
+          <div class="module__body">
+            <span class="module__tag">Apresentação para Clientes</span>
+            <div class="module__title">Vídeos de Apresentação para Clientes</div>
+            <p class="module__desc">Monte apresentações em vídeo voltadas para reuniões e entregas de projeto. Aprenda a estruturar a narrativa para guiar o cliente pela proposta e criar conexão emocional com o espaço projetado.</p>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module__num-col">
+            <span class="module__num-label">Módulo</span>
+            <span class="module__num">06</span>
+          </div>
+          <div class="module__body">
+            <span class="module__tag">Estratégia & Portfólio</span>
+            <div class="module__title">Distribuição e Estratégia de Portfólio em Vídeo</div>
+            <p class="module__desc">Saiba como exportar seus vídeos nos formatos ideais para cada plataforma. Aprenda a usar seus vídeos como ferramenta estratégica de marketing e construção de portfólio duradouro.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ BONUS -->
+<section id="bonus" class="section--darker">
+  <div class="section-inner">
+    <div class="container">
+      <div class="bonus__header fade-up">
+        <span class="label">Surpresas inclusas</span>
+        <h2>Bônus <em>exclusivos</em><br>para quem se inscrever agora</h2>
+      </div>
+
+      <div class="bonus__grid fade-up fade-up-delay-1">
+        <div class="bonus__card">
+          <span class="bonus__emoji">📋</span>
+          <h3>Checklist de Produção de Vídeo para Arquitetos</h3>
+          <p>Um guia prático com o passo a passo completo para produzir seu vídeo do início ao fim, sem esquecer nenhuma etapa. Ideal para usar em todos os seus projetos a partir de agora.</p>
+        </div>
+        <div class="bonus__card">
+          <span class="bonus__emoji">🎵</span>
+          <h3>Pack de Trilhas Sonoras Licenciadas</h3>
+          <p>Uma seleção de músicas profissionais e livres de direitos autorais, separadas por estilo e atmosfera, para você usar nos seus vídeos sem riscos no YouTube, Instagram ou qualquer plataforma.</p>
+        </div>
+        <div class="bonus__card">
+          <span class="bonus__emoji">📝</span>
+          <h3>Roteiro Modelo para Vídeo de Apresentação de Projeto</h3>
+          <p>Um template de roteiro pronto para você adaptar e usar na apresentação dos seus próximos projetos para clientes. Economize tempo e garanta uma narrativa profissional sempre.</p>
+        </div>
+        <div class="bonus__card">
+          <span class="bonus__emoji">👥</span>
+          <h3>Comunidade Exclusiva de Alunos</h3>
+          <p>Acesso a um grupo exclusivo para troca de experiências, feedbacks e networking com arquitetos e estudantes de todo o Brasil que estão na mesma jornada que você.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="container">
+      <div class="about__layout">
+        <div class="about__left fade-up">
+          <span class="label">Sobre o curso</span>
+          <h2>Um curso criado por quem vive a arquitetura na prática</h2>
+          <p>
+            Este minicurso foi desenvolvido com um único objetivo: dar a arquitetos e estudantes as ferramentas e o conhecimento necessários para comunicar seus projetos com o impacto que eles merecem.
+          </p>
+          <p>
+            O conteúdo foi estruturado de forma didática, objetiva e totalmente aplicável — sem enrolação, sem teoria desnecessária. Cada aula foi pensada para que você consiga colocar em prática imediatamente o que aprendeu.
+          </p>
+          <p>
+            Todo o material é 100% online e você tem acesso por tempo indeterminado, podendo assistir no seu ritmo, quantas vezes quiser, de qualquer dispositivo.
+          </p>
+
+          <div class="about__includes">
+            <h4>O curso inclui</h4>
+            <ul class="include__list">
+              <li><span class="dot"></span> Aulas em vídeo de alta qualidade</li>
+              <li><span class="dot"></span> Material de apoio para cada módulo</li>
+              <li><span class="dot"></span> 4 bônus exclusivos</li>
+              <li><span class="dot"></span> Acesso vitalício ao conteúdo e atualizações</li>
+              <li><span class="dot"></span> Acesso à comunidade de alunos</li>
+              <li><span class="dot"></span> Certificado de conclusão</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="about__visual fade-up fade-up-delay-1">
+          <div class="about__card-stack">
+            <div class="about__card--back"></div>
+            <div class="about__card">
+              <div class="about__metric">
+                <span class="about__metric-val">6</span>
+                <span class="about__metric-label">Módulos completos</span>
+              </div>
+              <div class="about__metric">
+                <span class="about__metric-val">4</span>
+                <span class="about__metric-label">Bônus exclusivos</span>
+              </div>
+              <div class="about__metric">
+                <span class="about__metric-val">100%</span>
+                <span class="about__metric-label">Online e no seu ritmo</span>
+              </div>
+              <div class="about__metric">
+                <span class="about__metric-val">∞</span>
+                <span class="about__metric-label">Acesso vitalício</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ PRICING -->
+<section id="pricing" class="section--darker">
+  <div class="section-inner">
+    <div class="container--narrow">
+      <div class="pricing__header fade-up">
+        <span class="label">Investimento</span>
+        <h2>Invista no que realmente diferencia sua carreira</h2>
+        <p>Você pode continuar apresentando seus projetos da mesma forma que todo mundo — ou pode dominar uma habilidade que pouquíssimos arquitetos no Brasil têm.</p>
+      </div>
+
+      <div class="pricing__card fade-up fade-up-delay-1">
+        <div class="pricing__top">
+          <div class="pricing__badge">Acesso completo + todos os bônus</div>
+          <span class="pricing__old">De R$ 397,00</span>
+          <div class="pricing__price">
+            <sup>R$</sup>197
+          </div>
+          <p class="pricing__installments">ou em até 12× de R$ 18,42 no cartão</p>
+        </div>
+
+        <div class="pricing__middle">
+          <ul class="pricing__features">
+            <li><span class="check">✓</span> 6 módulos em vídeo</li>
+            <li><span class="check">✓</span> Material de apoio</li>
+            <li><span class="check">✓</span> Checklist de produção</li>
+            <li><span class="check">✓</span> Pack de trilhas licenciadas</li>
+            <li><span class="check">✓</span> Roteiro modelo</li>
+            <li><span class="check">✓</span> Comunidade exclusiva</li>
+            <li><span class="check">✓</span> Acesso vitalício</li>
+            <li><span class="check">✓</span> Certificado de conclusão</li>
+          </ul>
+        </div>
+
+        <div class="pricing__bottom">
+          <a href="https://pay.hotmart.com/V105156102R" target="_blank" rel="noopener noreferrer" class="btn btn--primary pricing__btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Quero me inscrever agora por R$ 197,00
+          </a>
+          <div class="pricing__guarantee">🔒 Compra 100% segura · Garantia de 7 dias · Acesso imediato</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ FINAL CTA -->
+<section id="cta-final">
+  <div class="section-inner">
+    <div class="container--narrow">
+      <div class="fade-up" style="text-align:center;">
+        <span class="label" style="justify-content:center;">Última chamada</span>
+        <h2 class="cta__h2">Mostre seus projetos do jeito<br>que <em>eles merecem ser vistos</em></h2>
+        <p class="cta__p">
+          Arquitetos que dominam vídeo fecham mais contratos, crescem nas redes sociais e constroem portfólios que impressionam. Comece hoje.
+        </p>
+        <a href="https://pay.hotmart.com/V105156102R" target="_blank" rel="noopener noreferrer" class="btn btn--primary" style="font-size:1.05rem;padding:1.3rem 3rem;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Quero me inscrever agora
+        </a>
+        <div class="cta__trust">
+          <div class="trust__item"><span>🔒</span> <span>Compra segura</span></div>
+          <div class="trust__item"><span>↩</span> <span>Garantia de 7 dias</span></div>
+          <div class="trust__item"><span>⚡</span> <span>Acesso imediato</span></div>
+          <div class="trust__item"><span>∞</span> <span>Acesso vitalício</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ FOOTER -->
+<footer>
+  <div class="footer__inner">
+    <div>
+      <div class="footer__brand">Do Terreno à <span>Casa Pronta</span></div>
+      <p class="footer__tagline">Timelapse de Construção e Vídeos Profissionais de Arquitetura</p>
+      <a href="/cdn-cgi/l/email-protection#aecdc1c0dacfdac1eeddcbdbddc7dacb80cdc1c380ccdc" class="footer__contact"><span class="__cf_email__" data-cfemail="42212d2c3623362d02312737312b36276c212d2f6c2030">[email&#160;protected]</span></a>
+    </div>
+    <div class="footer__right">
+      <div class="footer__social">
+        <a href="#" class="social__icon" title="Instagram">IG</a>
+        <a href="#" class="social__icon" title="YouTube">YT</a>
+        <a href="#" class="social__icon" title="LinkedIn">IN</a>
+      </div>
+      <div class="footer__links">
+        <a href="#">Política de Privacidade</a>
+        <a href="#">Termos de Uso</a>
+      </div>
+      <p class="footer__copy">© 2025 Do Terreno à Casa Pronta · Todos os direitos reservados</p>
+    </div>
+
+    <p class="footer__legal">
+      Este produto é distribuído digitalmente. Ao adquirir, você concorda com os Termos de Uso e a Política de Privacidade do site. A garantia de 7 dias é aplicada conforme o Código de Defesa do Consumidor (Art. 49). Resultados podem variar conforme dedicação e aplicação de cada aluno.
+    </p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Smooth active nav
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 100;
+      const
