@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIMIA — Inteligência Artificial na Arquitetura</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --ink-soft: #3d3d3d;
+    --ink-muted: #7a7a7a;
+    --paper: #f5f3ee;
+    --paper-warm: #ede9e2;
+    --paper-white: #ffffff;
+    --accent: #2b2b2b;
+    --rule: rgba(26,26,26,0.12);
+    --rule-strong: rgba(26,26,26,0.25);
+    --highlight: #c8b89a;
+    --highlight-light: #e8dfd2;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(245,243,238,0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule-strong);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 56px;
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+  }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink-muted);
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+  .nav-issue {
+    font-size: 0.72rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* SECTIONS */
+  section { display: none; }
+  section.active { display: block; }
+
+  /* ======================== CAPA ======================== */
+  #capa {
+    min-height: 100vh;
+    padding-top: 56px;
+  }
+  .cover-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 56px);
+  }
+  .cover-left {
+    background: var(--ink);
+    padding: 4rem 3rem 4rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover-left::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .cover-left::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -80px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .cover-edition {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--highlight);
+    position: relative; z-index: 1;
+  }
+  .cover-title-block {
+    position: relative; z-index: 1;
+  }
+  .cover-kicker {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 1rem;
+  }
+  .cover-main-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 7vw, 6.5rem);
+    line-height: 0.9;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+  }
+  .cover-main-title em {
+    display: block;
+    color: var(--highlight);
+    font-style: normal;
+  }
+  .cover-subtitle {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.6;
+    max-width: 320px;
+  }
+  .cover-cta {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 0.75rem 2rem;
+    border: 1px solid var(--highlight);
+    color: var(--highlight);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative; z-index: 1;
+  }
+  .cover-cta:hover {
+    background: var(--highlight);
+    color: var(--ink);
+  }
+  .cover-bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    position: relative; z-index: 1;
+  }
+  .cover-issue-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    color: rgba(255,255,255,0.06);
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+  .cover-date {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .cover-right {
+    background: var(--paper-warm);
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .cover-feature-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--rule-strong);
+    margin-bottom: 1rem;
+  }
+  .cover-card {
+    background: var(--paper-white);
+    border: 1px solid var(--rule);
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .cover-card:hover { border-color: var(--ink); transform: translateX(4px); }
+  .cover-card-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    color: var(--highlight);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .cover-card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+  .cover-card-desc {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+  .cover-card-tag {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--highlight);
+    border: 1px solid var(--highlight-light);
+    padding: 2px 8px;
+    background: var(--highlight-light);
+  }
+  .cover-strip {
+    background: var(--ink);
+    color: rgba(255,255,255,0.5);
+    padding: 0.6rem 3rem;
+    display: flex;
+    gap: 3rem;
+    overflow: hidden;
+  }
+  .cover-strip span {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .cover-strip span strong {
+    color: var(--highlight);
+    font-weight: 500;
+  }
+
+  /* ======================== SUMÁRIO ======================== */
+  #sumario { padding-top: 56px; }
+
+  .toc-header {
+    background: var(--ink);
+    padding: 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: end;
+  }
+  .toc-header-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--highlight);
+    margin-bottom: 0.75rem;
+  }
+  .toc-header-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    letter-spacing: 0.04em;
+    color: #fff;
+    line-height: 0.95;
+  }
+  .toc-header-desc {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .toc-body {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 0;
+  }
+  .toc-main {
+    padding: 3rem 4rem;
+    border-right: 1px solid var(--rule-strong);
+  }
+  .toc-sidebar {
+    padding: 3rem 2.5rem;
+    background: var(--paper-warm);
+  }
+  .toc-section-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--ink);
+  }
+  .toc-item {
+    display: grid;
+    grid-template-columns: 48px 1fr 32px;
+    gap: 1.5rem;
+    align-items: start;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--rule);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .toc-item:hover { padding-left: 8px; }
+  .toc-item:hover .toc-item-title { color: var(--highlight); }
+  .toc-item-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--highlight);
+    line-height: 1;
+  }
+  .toc-item-content {}
+  .toc-item-cat {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 0.35rem;
+  }
+  .toc-item-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    line-height: 1.3;
+    color: var(--ink);
+    transition: color 0.2s;
+    margin-bottom: 0.4rem;
+  }
+  .toc-item-desc {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+  .toc-item-pg {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    color: var(--ink-muted);
+    text-align: right;
+  }
+
+  .toc-sidebar-block {
+    margin-bottom: 2.5rem;
+  }
+  .toc-sidebar-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+  .toc-sidebar-text {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    line-height: 1.6;
+  }
+  .toc-sidebar-rule {
+    border: none;
+    border-top: 1px solid var(--rule-strong);
+    margin: 1.5rem 0;
+  }
+  .toc-sidebar-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .toc-sidebar-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .toc-sidebar-unit {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    line-height: 1.4;
+  }
+
+  /* ======================== ARTIGO ======================== */
+  #artigo { padding-top: 56px; }
+
+  .article-hero {
+    background: var(--ink);
+    padding: 5rem 6rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .article-hero::before {
+    content: 'IA';
+    position: absolute;
+    right: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22rem;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+    pointer-events: none;
+    letter-spacing: -0.04em;
+  }
+  .article-cat {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--highlight);
+    border-bottom: 1px solid var(--highlight);
+    padding-bottom: 2px;
+    margin-bottom: 1.5rem;
+  }
+  .article-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    line-height: 1.15;
+    color: #fff;
+    max-width: 680px;
+    margin-bottom: 1.5rem;
+    position: relative; z-index: 1;
+  }
+  .article-title em {
+    font-style: italic;
+    color: var(--highlight);
+  }
+  .article-lede {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+    max-width: 560px;
+    margin-bottom: 2rem;
+    position: relative; z-index: 1;
+  }
+  .article-meta {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 1.5rem;
+    position: relative; z-index: 1;
+  }
+  .article-author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .article-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--highlight);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .article-author-name {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.8);
+  }
+  .article-author-role {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.4);
+  }
+  .article-read-time {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.06em;
+    border-left: 1px solid rgba(255,255,255,0.1);
+    padding-left: 2rem;
+  }
+
+  .article-body {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 4rem;
+  }
+  .article-content {
+    padding: 3.5rem 4rem 4rem 0;
+    border-right: 1px solid var(--rule);
+  }
+  .article-p {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--ink-soft);
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+  }
+  .article-h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.55rem;
+    color: var(--ink);
+    margin: 3rem 0 1.2rem;
+    line-height: 1.25;
+  }
+  .article-pullquote {
+    margin: 3rem 0;
+    padding: 2rem 2.5rem;
+    border-left: 3px solid var(--ink);
+    background: var(--paper-warm);
+  }
+  .article-pullquote p {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.35rem;
+    line-height: 1.5;
+    color: var(--ink);
+    font-style: italic;
+  }
+  .article-pullquote cite {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    font-style: normal;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.75rem;
+  }
+  .article-figure {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    margin: 2.5rem 0;
+    overflow: hidden;
+  }
+  .article-figure-vis {
+    height: 200px;
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .article-figure-vis svg { width: 100%; height: 100%; }
+  .article-caption {
+    padding: 0.85rem 1.25rem;
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    line-height: 1.5;
+    border-top: 1px solid var(--rule);
+  }
+  .article-caption strong {
+    color: var(--ink);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.65rem;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .article-list {
+    margin: 1.5rem 0;
+    padding-left: 0;
+    list-style: none;
+  }
+  .article-list li {
+    padding: 0.6rem 0 0.6rem 1.5rem;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    font-weight: 300;
+  }
+  .article-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--highlight);
+  }
+
+  .article-sidebar {
+    padding: 3.5rem 0 4rem 3rem;
+  }
+  .sidebar-widget {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .sidebar-widget-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 1rem;
+  }
+  .sidebar-widget-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--ink);
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+  }
+  .sidebar-widget-text {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    line-height: 1.6;
+  }
+  .sidebar-stat-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .sidebar-stat-label {
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    line-height: 1.5;
+    margin-top: 0.25rem;
+  }
+  .tool-chip {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--paper-warm);
+    border: 1px solid var(--rule-strong);
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    margin: 3px 3px 3px 0;
+    letter-spacing: 0.04em;
+  }
+
+  /* FOOTER */
+  .mag-footer {
+    background: var(--ink);
+    padding: 2rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .mag-footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: #fff;
+    letter-spacing: 0.12em;
+  }
+  .mag-footer-text {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.08em;
+  }
+
+  /* TRANSITIONS */
+  section { animation: fadeIn 0.35s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  @media (max-width: 768px) {
+    .cover-hero { grid-template-columns: 1fr; }
+    .toc-body { grid-template-columns: 1fr; }
+    .toc-header { grid-template-columns: 1fr; }
+    .article-body { grid-template-columns: 1fr; padding: 0 1.5rem; }
+    .article-hero { padding: 3rem 1.5rem 2.5rem; }
+    .article-content { border-right: none; padding-right: 0; }
+    .toc-main { padding: 2rem 1.5rem; }
+    .cover-left { padding: 2.5rem 2rem; }
+    .cover-right { padding: 2rem; }
+    nav { padding: 0 1.5rem; }
+    .nav-links { gap: 1rem; }
+    .toc-header { padding: 2.5rem; }
+    .mag-footer { padding: 1.5rem; flex-direction: column; gap: 0.75rem; text-align: center; }
+    .cover-strip { padding: 0.6rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">SIMIA</div>
+  <ul class="nav-links">
+    <li><a onclick="show('capa')" class="active" id="nav-capa">Capa</a></li>
+    <li><a onclick="show('sumario')" id="nav-sumario">Sumário</a></li>
+    <li><a onclick="show('artigo')" id="nav-artigo">Artigo</a></li>
+  </ul>
+  <span class="nav-issue">Ed. 01 · Abril 2026</span>
+</nav>
+
+<!-- ================= CAPA ================= -->
+<section id="capa" class="active">
+  <div class="cover-strip">
+    <span><strong>Em destaque:</strong> Render com IA em menos de 1 minuto</span>
+    <span><strong>Especial:</strong> Ferramentas para arquitetos</span>
+    <span><strong>Entrevista:</strong> O futuro dos escritórios de arquitetura</span>
+    <span><strong>Prática:</strong> Timelapse profissional com IA</span>
+  </div>
+  <div class="cover-hero">
+    <div class="cover-left">
+      <div class="cover-edition">Edição 01 · Abril 2026 · Brasil</div>
+      <div class="cover-title-block">
+        <div class="cover-kicker">A revista da nova arquitetura</div>
+        <div class="cover-main-title">
+          INTELIGÊNCIA<br>
+          <em>ARTIFICIAL</em><br>
+          NA ARQUITETURA
+        </div>
+        <p class="cover-subtitle">Como o design computacional, a geração de imagens por IA e os vídeos automatizados estão redefinindo o trabalho do arquiteto moderno.</p>
+        <div class="cover-cta" onclick="show('sumario')">Ver edição completa →</div>
+      </div>
+      <div class="cover-bottom">
+        <div class="cover-issue-num">01</div>
+        <div class="cover-date">Abril 2026</div>
+      </div>
+    </div>
+    <div class="cover-right">
+      <div class="cover-feature-label">Nesta edição</div>
+      <div class="cover-card" onclick="show('artigo')">
+        <div class="cover-card-tag">Destaque</div>
+        <div class="cover-card-num">01</div>
+        <div class="cover-card-title">Do Terreno à Casa Pronta: Timelapse com IA</div>
+        <div class="cover-card-desc">Como criar, a partir do desenho do projeto, uma sequência visual completa do processo construtivo — sem obra, sem câmera, apenas com inteligência artificial.</div>
+      </div>
+      <br>
+      <div class="cover-card" onclick="show('sumario')">
+        <div class="cover-card-num">02</div>
+        <div class="cover-card-title">Render com IA em Menos de 1 Minuto: o Fim dos Renders Tradicionais?</div>
+        <div class="cover-card-desc">As novas fronteiras do visualismo arquitetônico e como a IA está transformando a forma de apresentar projetos.</div>
+      </div>
+      <br>
+      <div class="cover-card" onclick="show('sumario')">
+        <div class="cover-card-num">03</div>
+        <div class="cover-card-title">Vídeo Gerado por IA para Apresentações</div>
+        <div class="cover-card-desc">Como arquitetos estão usando Runway, Kling e Sora para impressionar clientes.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SUMÁRIO ================= -->
+<section id="sumario">
+  <div class="toc-header">
+    <div>
+      <div class="toc-header-label">Edição 01 · Abril 2026</div>
+      <div class="toc-header-title">SUMÁRIO</div>
+    </div>
+    <div>
+      <p class="toc-header-desc">Uma edição dedicada inteiramente à revolução silenciosa que a inteligência artificial está promovendo nos escritórios de arquitetura — do croqui ao vídeo final.</p>
+    </div>
+  </div>
+
+  <div class="toc-body">
+    <div class="toc-main">
+      <div class="toc-section-label">Matérias principais</div>
+
+      <div class="toc-item" onclick="show('artigo')">
+        <div class="toc-item-num">01</div>
+        <div class="toc-item-content">
+          <div class="toc-item-cat">Destaque da edição</div>
+          <div class="toc-item-title">Do Terreno à Casa Pronta: Timelapse de Construção com IA</div>
+          <div class="toc-item-desc">Do desenho do projeto ao vídeo completo do processo construtivo — sem obra, sem câmera. Como a IA transforma o projeto em timelapse e facilita o entendimento do cliente passo a passo.</div>
+        </div>
+        <div class="toc-item-pg">08</div>
+      </div>
+
+      <div class="toc-item">
+        <div class="toc-item-num">02</div>
+        <div class="toc-item-content">
+          <div class="toc-item-cat">Render e Visualização</div>
+          <div class="toc-item-title">Render com IA em Menos de 1 Minuto: o Novo Visualismo Arquitetônico</div>
+          <div class="toc-item-desc">As novas fronteiras do visualismo arquitetônico com inteligência artificial e como integrá-las ao fluxo de trabalho do escritório.</div>
+        </div>
+        <div class="toc-item-pg">18</div>
+      </div>
+
+      <div class="toc-item">
+        <div class="toc-item-num">03</div>
+        <div class="toc-item-content">
+          <div class="toc-item-cat">Vídeo e Marketing</div>
+          <div class="toc-item-title">Vídeos de Arquitetura com IA: Runway, Kling e Sora em Prática</div>
+          <div class="toc-item-desc">Como gerar vídeos cinematic de projetos sem câmera, equipe ou pós-produção cara.</div>
+        </div>
+        <div class="toc-item-pg">28</div>
+      </div>
+
+      <div class="toc-item">
+        <div class="toc-item-num">04</div>
+        <div class="toc-item-content">
+          <div class="toc-item-cat">Gestão e Produtividade</div>
+          <div class="toc-item-title">ChatGPT no Escritório de Arquitetura: Memoriais, Contratos e Briefings</div>
+          <div class="toc-item-desc">Prompts prontos para gerar documentos técnicos, memoriais descritivos e apresentações em minutos.</div>
+        </div>
+        <div class="toc-item-pg">36</div>
+      </div>
+
+      <div class="toc-item">
+        <div class="toc-item-num">05</div>
+        <div class="toc-item-content">
+          <div class="toc-item-cat">Entrevista</div>
+          <div class="toc-item-title">«A IA não substitui o arquiteto — ela amplifica sua visão»</div>
+          <div class="toc-item-desc">Conversa com quatro arquitetos que já transformaram seus processos criativos com inteligência artificial.</div>
+        </div>
+        <div class="toc-item-pg">44</div>
+      </div>
+
+      <div class="toc-item">
+        <div class="toc-item-num">06</div>
+        <div class="toc-item-content">
+          <div class="toc-item-cat">Especial</div>
+          <div class="toc-item-title">50 Ferramentas de IA para Arquitetos: o Guia Essencial de 2025</div>
+          <div class="toc-item-desc">Curadoria comentada das melhores ferramentas por categoria: render, vídeo, planta, gestão e apresentação.</div>
+        </div>
+        <div class="toc-item-pg">52</div>
+      </div>
+    </div>
+
+    <div class="toc-sidebar">
+      <div class="toc-sidebar-block">
+        <div class="toc-section-label">Números desta edição</div>
+        <div class="toc-sidebar-stat">
+          <div class="toc-sidebar-num">6</div>
+          <div class="toc-sidebar-unit">matérias exclusivas</div>
+        </div>
+        <hr class="toc-sidebar-rule">
+        <div class="toc-sidebar-stat">
+          <div class="toc-sidebar-num">50+</div>
+          <div class="toc-sidebar-unit">ferramentas de IA avaliadas</div>
+        </div>
+        <hr class="toc-sidebar-rule">
+        <div class="toc-sidebar-stat">
+          <div class="toc-sidebar-num">4</div>
+          <div class="toc-sidebar-unit">arquitetos entrevistados</div>
+        </div>
+      </div>
+
+      <div class="toc-sidebar-block">
+        <div class="toc-section-label">Editorial</div>
+        <div class="toc-sidebar-title">Uma nova era para a arquitetura</div>
+        <p class="toc-sidebar-text">A SIMIA nasce do entendimento de que a inteligência artificial não é uma ameaça à nossa profissão — é a mais poderosa extensão criativa que já tivemos. Esta primeira edição é um convite para explorar, experimentar e dominar.</p>
+      </div>
+
+      <div class="toc-sidebar-block">
+        <div class="toc-section-label">Próxima edição</div>
+        <div class="toc-sidebar-title">BIM + IA: automação completa de projetos</div>
+        <p class="toc-sidebar-text" style="margin-top:0.4rem;">Dezembro 2025</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mag-footer">
+    <div class="mag-footer-logo">SIMIA</div>
+    <div class="mag-footer-text">Inteligência Artificial na Arquitetura · Ed. 01 · Abril 2026</div>
+  </div>
+</section>
+
+<!-- ================= ARTIGO ================= -->
+<section id="artigo">
+  <div class="article-hero">
+  <div class="article-cat">Destaque da edição · Pág. 08</div>
+    <h1 class="article-title">Do Terreno à Casa Pronta:<br><em>Timelapse de Construção com IA</em></h1>
+    <p class="article-lede">Sem obra, sem canteiro, sem câmera — como transformar o desenho do projeto em uma sequência visual completa do processo construtivo, gerada inteiramente por inteligência artificial para encantar e informar o cliente.</p>
+    <div class="article-meta">
+      <div class="article-author">
+        <div class="article-avatar">SM</div>
+        <div>
+          <div class="article-author-name">Arq. Silvia Moura</div>
+          <div class="article-author-role">Arquitetura e Tecnologia</div>
+        </div>
+      </div>
+      <div class="article-read-time">Leitura: 8 minutos</div>
+    </div>
+  </div>
+
+  <div class="article-body">
+    <div class="article-content">
+
+      <p class="article-p">Apresentar um projeto ao cliente sempre foi um dos maiores desafios da arquitetura. Plantas, cortes e perspectivas estáticas exigem do cliente uma capacidade de leitura técnica que a maioria não tem. O resultado: dúvidas, inseguranças e retrabalho. E se fosse possível mostrar, passo a passo, como a construção vai acontecer — antes mesmo de qualquer obra começar?</p>
+
+      <p class="article-p">É exatamente isso que a inteligência artificial torna possível hoje. A partir do desenho do projeto — sem precisar tirar uma única foto de obra, sem canteiro, sem operários — é possível gerar uma sequência visual completa do processo construtivo: do terreno vazio à casa pronta. Um timelapse criado inteiramente por IA, que traduz o projeto técnico numa linguagem que qualquer cliente entende e se encanta.</p>
+
+      <div class="article-figure">
+        <div class="article-figure-vis">
+          <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#c8b89a;stop-opacity:0.15"/>
+                <stop offset="100%" style="stop-color:#c8b89a;stop-opacity:0.4"/>
+              </linearGradient>
+            </defs>
+            <rect width="700" height="200" fill="#1a1a1a"/>
+            <!-- timeline line -->
+            <line x1="60" y1="100" x2="640" y2="100" stroke="#c8b89a" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>
+            <!-- steps -->
+            <g transform="translate(80,100)">
+              <circle r="28" fill="none" stroke="#c8b89a" stroke-width="1" opacity="0.6"/>
+              <text y="5" text-anchor="middle" fill="#c8b89a" font-family="Bebas Neue,sans-serif" font-size="10" letter-spacing="0.5">PROJETO</text>
+            </g>
+            <line x1="108" y1="100" x2="195" y2="100" stroke="#c8b89a" stroke-width="1" opacity="0.3"/>
+            <g transform="translate(223,100)">
+              <circle r="28" fill="none" stroke="#c8b89a" stroke-width="1" opacity="0.6"/>
+              <text y="5" text-anchor="middle" fill="#c8b89a" font-family="Bebas Neue,sans-serif" font-size="10" letter-spacing="0.3">SEQUÊNCIA</text>
+            </g>
+            <line x1="251" y1="100" x2="338" y2="100" stroke="#c8b89a" stroke-width="1" opacity="0.3"/>
+            <g transform="translate(366,100)">
+              <circle r="28" fill="#c8b89a" fill-opacity="0.15" stroke="#c8b89a" stroke-width="1.5"/>
+              <text y="5" text-anchor="middle" fill="#c8b89a" font-family="Bebas Neue,sans-serif" font-size="11" letter-spacing="0.5">IA</text>
+            </g>
+            <line x1="394" y1="100" x2="481" y2="100" stroke="#c8b89a" stroke-width="1" opacity="0.3"/>
+            <g transform="translate(509,100)">
+              <circle r="28" fill="none" stroke="#c8b89a" stroke-width="1" opacity="0.6"/>
+              <text y="5" text-anchor="middle" fill="#c8b89a" font-family="Bebas Neue,sans-serif" font-size="10" letter-spacing="0.3">MÚSICA</text>
+            </g>
+            <line x1="537" y1="100" x2="612" y2="100" stroke="#c8b89a" stroke-width="1" opacity="0.3"/>
+            <g transform="translate(620,100)">
+              <circle r="20" fill="#c8b89a" fill-opacity="0.9" stroke="#c8b89a" stroke-width="1.5"/>
+              <text y="5" text-anchor="middle" fill="#1a1a1a" font-family="Bebas Neue,sans-serif" font-size="11" letter-spacing="0.3">VÍDEO</text>
+            </g>
+            <!-- labels below -->
+            <text x="80" y="148" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-family="DM Sans,sans-serif" font-size="9">Desenho</text>
+            <text x="223" y="148" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-family="DM Sans,sans-serif" font-size="9">Organização</text>
+            <text x="366" y="148" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-family="DM Sans,sans-serif" font-size="9">Geração</text>
+            <text x="509" y="148" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-family="DM Sans,sans-serif" font-size="9">Trilha</text>
+            <text x="620" y="148" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-family="DM Sans,sans-serif" font-size="9">Publicação</text>
+          </svg>
+        </div>
+        <div class="article-caption">
+          <strong>Figura 01 — Fluxo de produção</strong>
+          O pipeline completo: do desenho do projeto à publicação do vídeo final, com a IA gerando cada etapa da construção.
+        </div>
+      </div>
+
+      <h2 class="article-h2">Por que o timelapse gerado por IA transforma a relação com o cliente?</h2>
+
+      <p class="article-p">Diferente de uma renderização estática, o timelapse construtivo gerado por IA mostra o projeto em movimento — a sequência lógica das etapas, a evolução do espaço, a materialização da ideia. O cliente deixa de precisar imaginar e passa a ver. Isso reduz drasticamente as dúvidas durante a obra, aumenta a confiança no profissional e valoriza o trabalho do arquiteto muito antes da primeira pedra ser assentada.</p>
+
+      <p class="article-p">Do ponto de vista de marketing digital, esse tipo de vídeo tem taxas de engajamento no Instagram e LinkedIn muito superiores às das imagens estáticas — especialmente quando combinado com trilha sonora adequada e uma narrativa que contextualiza o projeto.</p>
+
+      <div class="article-pullquote">
+        <p>"O cliente não precisa ler planta. Ele precisa ver a casa nascendo. A IA nos dá exatamente isso — antes mesmo da obra começar."</p>
+        <cite>— Arq. Silvia Moura, SIMIA Ed. 01</cite>
+      </div>
+
+      <h2 class="article-h2">O fluxo em 5 etapas com IA</h2>
+
+      <ul class="article-list">
+        <li><strong>Projeto como ponto de partida:</strong> parte-se do desenho técnico já existente — planta, volumetria ou perspectiva do projeto — sem necessidade de qualquer registro fotográfico de obra.</li>
+        <li><strong>Criação das imagens por etapa construtiva:</strong> com IA, geram-se imagens que representam cada fase da construção — fundação, estrutura, alvenaria, cobertura, acabamento — a partir do projeto original.</li>
+        <li><strong>Sequenciamento e transições:</strong> as imagens geradas são organizadas em ordem cronológica e a IA interpola as transições, criando a ilusão fluida de uma construção acontecendo em tempo real.</li>
+        <li><strong>Trilha e narração:</strong> geração de música e textos descritivos com IA para enriquecer a experiência visual e facilitar ainda mais o entendimento do cliente.</li>
+        <li><strong>Vídeo final:</strong> exportação do timelapse completo, pronto para apresentação ao cliente, publicação nas redes sociais ou uso em proposta comercial.</li>
+      </ul>
+
+      <h2 class="article-h2">A tecnologia por trás da mágica</h2>
+
+      <p class="article-p">O mercado de IA para geração de imagens e vídeo evoluiu de forma impressionante em 2025 e 2026. As ferramentas disponíveis hoje permitem não apenas gerar imagens fotorrealistas a partir de descrições textuais, mas também criar transições suaves entre estados visuais — exatamente o que precisamos para simular o avanço de uma construção.</p>
+
+      <p class="article-p">O processo é surpreendentemente acessível: com o desenho do projeto como referência visual, a IA é capaz de gerar cada etapa construtiva com coerência e realismo. O resultado é um vídeo que o cliente assiste e compreende imediatamente — sem precisar interpretar planta baixa, sem precisar imaginar proporções, sem perguntas sobre "como vai ficar".</p>
+
+      <div class="article-figure">
+        <div class="article-figure-vis" style="height:160px; padding: 2rem 3rem; display:flex; align-items:center; gap:2rem; justify-content:center; flex-wrap:wrap;">
+          <div style="text-align:center;">
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:1.8rem; color:#c8b89a; line-height:1;">Runway</div>
+            <div style="font-size:0.7rem; color:rgba(255,255,255,0.35); letter-spacing:0.1em; text-transform:uppercase; margin-top:4px;">Transições</div>
+          </div>
+          <div style="width:1px; height:40px; background:rgba(255,255,255,0.1);"></div>
+          <div style="text-align:center;">
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:1.8rem; color:#c8b89a; line-height:1;">Kling AI</div>
+            <div style="font-size:0.7rem; color:rgba(255,255,255,0.35); letter-spacing:0.1em; text-transform:uppercase; margin-top:4px;">Câmera</div>
+          </div>
+          <div style="width:1px; height:40px; background:rgba(255,255,255,0.1);"></div>
+          <div style="text-align:center;">
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:1.8rem; color:#c8b89a; line-height:1;">Suno</div>
+            <div style="font-size:0.7rem; color:rgba(255,255,255,0.35); letter-spacing:0.1em; text-transform:uppercase; margin-top:4px;">Música</div>
+          </div>
+          <div style="width:1px; height:40px; background:rgba(255,255,255,0.1);"></div>
+          <div style="text-align:center;">
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:1.8rem; color:#c8b89a; line-height:1;">CapCut</div>
+            <div style="font-size:0.7rem; color:rgba(255,255,255,0.35); letter-spacing:0.1em; text-transform:uppercase; margin-top:4px;">Edição</div>
+          </div>
+        </div>
+        <div class="article-caption">
+          <strong>Figura 02 — Stack recomendado</strong>
+          Combinação de ferramentas testada em produção para timelapse arquitetônico profissional.
+        </div>
+      </div>
+
+      <h2 class="article-h2">Dica prática: o projeto como matéria-prima</h2>
+
+      <p class="article-p">Quanto mais detalhado e bem resolvido o projeto, mais fiel e impressionante será o timelapse gerado. A IA trabalha a partir das referências visuais fornecidas — volumetria, materiais, entorno — e quanto mais informação ela recebe, mais coerente é o resultado em cada etapa da sequência construtiva.</p>
+
+      <p class="article-p">Isso significa que o timelapse com IA não é apenas uma ferramenta de comunicação: é também um exercício de refinamento do projeto. Ao gerar as etapas construtivas, o arquiteto frequentemente identifica pontos de atenção no detalhamento que passariam despercebidos em uma apresentação estática. A IA, nesse sentido, funciona como uma simulação antecipada da realidade — um benefício que vai muito além do vídeo final.</p>
+
+    </div>
+
+    <div class="article-sidebar">
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-label">Dado em destaque</div>
+        <div class="sidebar-stat-big">340%</div>
+        <div class="sidebar-stat-label">de aumento médio no engajamento de posts com timelapse vs. fotos estáticas de obra no LinkedIn (2024)</div>
+      </div>
+
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-label">Ferramentas citadas</div>
+        <div class="tool-chip">Runway Gen-3</div>
+        <div class="tool-chip">Kling AI</div>
+        <div class="tool-chip">Leonardo Motion</div>
+        <div class="tool-chip">Suno</div>
+        <div class="tool-chip">Udio</div>
+        <div class="tool-chip">CapCut</div>
+        <div class="tool-chip">ChatGPT</div>
+        <div class="tool-chip">DaVinci Resolve</div>
+      </div>
+
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-label">Próximos passos</div>
+        <div class="sidebar-widget-title">Mini-curso completo</div>
+        <p class="sidebar-widget-text">Silvia Moura lança em maio o curso <em>Do Terreno à Casa Pronta</em>, com 5 módulos práticos ensinando a criar, a partir do desenho do projeto, um timelapse completo do processo construtivo gerado inteiramente por IA.</p>
+      </div>
+
+      <div class="sidebar-widget" style="border-bottom:none;">
+        <div class="sidebar-widget-label">Leia também</div>
+        <div class="sidebar-widget-title" style="cursor:pointer; border-bottom:1px solid var(--rule); padding-bottom:0.75rem; margin-bottom:0.75rem;" onclick="show('sumario')">→ Renderização Generativa com Midjourney</div>
+        <div class="sidebar-widget-title" style="cursor:pointer;" onclick="show('sumario')">→ 50 Ferramentas de IA para Arquitetos</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mag-footer">
+    <div class="mag-footer-logo">SIMIA</div>
+    <div class="mag-footer-text">Inteligência Artificial na Arquitetura · Ed. 01 · Abril 2026</div>
+  </div>
+</section>
+
+<script>
+function show(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById('nav-' + id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
