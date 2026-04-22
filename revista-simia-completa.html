@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIMIA — Inteligência Artificial na Arquitetura</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#1a1a1a;--ink-soft:#3d3d3d;--ink-muted:#7a7a7a;
+  --paper:#f5f3ee;--paper-warm:#ede9e2;--paper-white:#ffffff;
+  --rule:rgba(26,26,26,0.12);--rule-strong:rgba(26,26,26,0.25);
+  --gold:#c8b89a;--gold-light:#e8dfd2;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(245,243,238,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule-strong);display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:54px;}
+.nav-logo{font-size:1.5rem;font-weight:900;letter-spacing:0.14em;color:var(--ink);}
+.nav-links{display:flex;gap:0;list-style:none;}
+.nav-links a{font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;color:var(--ink-muted);padding:0 1.1rem;height:54px;display:flex;align-items:center;border-bottom:2px solid transparent;cursor:pointer;transition:all 0.2s;}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a.active{color:var(--ink);border-bottom-color:var(--ink);}
+.nav-issue{font-size:0.7rem;color:var(--ink-muted);letter-spacing:0.08em;}
+section{display:none;padding-top:54px;}
+section.active{display:block;animation:fadeIn 0.3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+.cover-strip{background:var(--ink);padding:0.55rem 2.5rem;display:flex;gap:2.5rem;overflow:hidden;}
+.cover-strip span{font-size:0.68rem;color:rgba(255,255,255,0.4);letter-spacing:0.1em;text-transform:uppercase;white-space:nowrap;}
+.cover-strip span strong{color:var(--gold);font-weight:600;}
+.cover-hero{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 90px);}
+.cover-left{background:var(--ink);padding:4rem 3rem 3.5rem 4rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;}
+.cover-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=900&q=80') center/cover;opacity:0.13;}
+.cover-edition{font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);position:relative;z-index:1;}
+.cover-title-block{position:relative;z-index:1;}
+.cover-kicker{font-size:0.72rem;font-weight:300;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-bottom:0.85rem;}
+.cover-main-title{font-size:clamp(3.5rem,6vw,6rem);line-height:0.9;font-weight:900;letter-spacing:0.02em;color:#fff;}
+.cover-main-title em{display:block;color:var(--gold);font-style:normal;}
+.cover-subtitle{margin-top:1.25rem;font-size:0.92rem;font-weight:300;color:rgba(255,255,255,0.52);line-height:1.7;max-width:300px;}
+.cover-cta{display:inline-block;margin-top:1.75rem;padding:0.65rem 1.75rem;border:1px solid var(--gold);color:var(--gold);font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all 0.25s;position:relative;z-index:1;}
+.cover-cta:hover{background:var(--gold);color:var(--ink);}
+.cover-bottom{display:flex;align-items:flex-end;justify-content:space-between;position:relative;z-index:1;}
+.cover-num{font-size:5.5rem;font-weight:900;color:rgba(255,255,255,0.05);line-height:1;}
+.cover-date{font-size:0.68rem;color:rgba(255,255,255,0.25);letter-spacing:0.1em;text-transform:uppercase;}
+.cover-right{background:var(--paper-warm);padding:2.5rem 2rem;display:flex;flex-direction:column;gap:1.25rem;}
+.cover-feature-label{font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-muted);padding-bottom:0.75rem;border-bottom:1px solid var(--rule-strong);}
+.ccard{background:var(--paper-white);border:1px solid var(--rule);cursor:pointer;transition:all 0.2s;overflow:hidden;}
+.ccard:hover{border-color:var(--ink);transform:translateX(3px);}
+.ccard img{width:100%;height:130px;object-fit:cover;display:block;}
+.ccard-body{padding:1rem 1.1rem;}
+.ccard-tag{display:inline-block;font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);background:var(--gold-light);padding:2px 7px;margin-bottom:0.4rem;}
+.ccard-num{font-size:1.8rem;font-weight:900;color:var(--gold);line-height:1;margin-bottom:0.3rem;}
+.ccard-title{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--ink);margin-bottom:0.3rem;line-height:1.35;}
+.ccard-desc{font-size:0.77rem;color:var(--ink-muted);line-height:1.5;}
+.toc-header{background:var(--ink);padding:4rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:end;}
+.toc-header-label{font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;}
+.toc-header-title{font-size:clamp(3rem,5vw,4.2rem);font-weight:900;letter-spacing:0.04em;color:#fff;line-height:0.95;}
+.toc-header img{width:100%;height:120px;object-fit:cover;margin-bottom:0.85rem;}
+.toc-header-desc{font-size:0.9rem;color:rgba(255,255,255,0.46);line-height:1.7;font-weight:300;}
+.toc-body{display:grid;grid-template-columns:2fr 1fr;}
+.toc-main{padding:3rem 4rem;border-right:1px solid var(--rule-strong);}
+.toc-sidebar{padding:3rem 2.5rem;background:var(--paper-warm);}
+.toc-section-label{font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:1.5rem;padding-bottom:0.4rem;border-bottom:2px solid var(--ink);}
+.toc-item{display:grid;grid-template-columns:48px 1fr 32px;gap:1.25rem;align-items:start;padding:1.4rem 0;border-bottom:1px solid var(--rule);cursor:pointer;transition:all 0.2s;}
+.toc-item:hover{padding-left:6px;}
+.toc-item:hover .toc-item-title{color:var(--gold);}
+.toc-item-num{font-size:1.9rem;font-weight:900;color:var(--gold);line-height:1;}
+.toc-item-cat{font-size:0.62rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.35rem;}
+.toc-item-title{font-family:'DM Serif Display',serif;font-size:1.08rem;line-height:1.3;color:var(--ink);transition:color 0.2s;margin-bottom:0.35rem;}
+.toc-item-desc{font-size:0.78rem;color:var(--ink-muted);line-height:1.5;}
+.toc-item-pg{font-size:1.15rem;font-weight:700;color:var(--ink-muted);text-align:right;}
+.toc-stat{display:flex;align-items:baseline;gap:0.4rem;margin-bottom:0.4rem;}
+.toc-stat-num{font-size:2.6rem;font-weight:900;color:var(--ink);line-height:1;}
+.toc-stat-unit{font-size:0.77rem;color:var(--ink-muted);line-height:1.4;}
+.toc-sb-title{font-family:'DM Serif Display',serif;font-size:0.95rem;color:var(--ink);margin-bottom:0.35rem;}
+.toc-sb-text{font-size:0.78rem;color:var(--ink-muted);line-height:1.6;}
+.toc-hr{border:none;border-top:1px solid var(--rule-strong);margin:1.25rem 0;}
+.art-hero{background:var(--ink);padding:5rem 6rem 4rem;position:relative;overflow:hidden;}
+.art-hero::before{content:'IA';position:absolute;right:2rem;top:50%;transform:translateY(-50%);font-size:20rem;font-weight:900;color:rgba(255,255,255,0.03);line-height:1;pointer-events:none;}
+.art-cat{font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--gold);padding-bottom:2px;display:inline-block;margin-bottom:1.25rem;}
+.art-title{font-family:'DM Serif Display',serif;font-size:clamp(2rem,3.8vw,3.2rem);line-height:1.15;color:#fff;max-width:640px;margin-bottom:1.25rem;position:relative;z-index:1;}
+.art-title em{font-style:italic;color:var(--gold);}
+.art-lede{font-size:1.02rem;font-weight:300;color:rgba(255,255,255,0.58);line-height:1.7;max-width:540px;margin-bottom:1.75rem;position:relative;z-index:1;}
+.art-meta{display:flex;gap:1.75rem;align-items:center;border-top:1px solid rgba(255,255,255,0.1);padding-top:1.25rem;position:relative;z-index:1;}
+.art-avatar{width:36px;height:36px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:var(--ink);}
+.art-author-name{font-size:0.82rem;font-weight:600;color:rgba(255,255,255,0.8);}
+.art-author-role{font-size:0.7rem;color:rgba(255,255,255,0.38);}
+.art-readtime{font-size:0.72rem;color:rgba(255,255,255,0.36);border-left:1px solid rgba(255,255,255,0.1);padding-left:1.75rem;}
+.art-body{display:grid;grid-template-columns:1fr 280px;max-width:1100px;margin:0 auto;padding:0 4rem;}
+.art-content{padding:3.5rem 4rem 4rem 0;border-right:1px solid var(--rule);}
+.art-p{font-size:1rem;line-height:1.88;color:var(--ink-soft);margin-bottom:1.5rem;font-weight:300;}
+.art-h2{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--ink);margin:3rem 0 1.1rem;line-height:1.25;}
+.art-pullquote{margin:2.75rem 0;padding:1.85rem 2.25rem;border-left:3px solid var(--ink);background:var(--paper-warm);}
+.art-pullquote p{font-family:'DM Serif Display',serif;font-size:1.28rem;line-height:1.55;color:var(--ink);font-style:italic;}
+.art-pullquote cite{display:block;font-size:0.7rem;color:var(--ink-muted);font-style:normal;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.65rem;}
+.art-fig{background:var(--paper-warm);border:1px solid var(--rule);margin:2.25rem 0;overflow:hidden;}
+.art-fig img{width:100%;display:block;object-fit:cover;}
+.art-caption{padding:0.8rem 1.1rem;font-size:0.73rem;color:var(--ink-muted);line-height:1.5;border-top:1px solid var(--rule);}
+.art-caption strong{color:var(--ink);font-weight:700;font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;display:block;margin-bottom:2px;}
+.art-list{margin:1.5rem 0;padding-left:0;list-style:none;}
+.art-list li{padding:0.6rem 0 0.6rem 1.5rem;font-size:0.95rem;color:var(--ink-soft);line-height:1.6;border-bottom:1px solid var(--rule);position:relative;font-weight:300;}
+.art-list li::before{content:'→';position:absolute;left:0;color:var(--gold);}
+.flow-block{margin:2.25rem 0;}
+.fprog-bar{width:100%;height:2px;background:var(--rule);margin-bottom:1.5rem;overflow:hidden;}
+.fprog-fill{height:100%;background:var(--ink);transition:width 0.4s ease;width:20%;}
+.fstep{display:grid;grid-template-columns:50px 1fr;cursor:pointer;}
+.fstep-left{display:flex;flex-direction:column;align-items:center;padding-top:3px;}
+.fstep-badge{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--rule-strong);background:var(--paper-white);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink-muted);transition:all 0.2s;flex-shrink:0;position:relative;z-index:1;}
+.fstep.fon .fstep-badge,.fstep:hover .fstep-badge{background:var(--ink);border-color:var(--ink);color:#fff;}
+.fbadge-final{background:var(--ink)!important;border-color:var(--ink)!important;}
+.fline{width:1.5px;flex:1;background:var(--rule-strong);min-height:18px;}
+.fstep:last-child .fline{display:none;}
+.fstep-body{padding:0 0 1.5rem 1rem;}
+.fstep-title{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--ink);padding-top:8px;line-height:1.3;transition:color 0.2s;}
+.fstep:hover .fstep-title{color:var(--gold);}
+.fstep-detail{max-height:0;overflow:hidden;transition:max-height 0.35s ease,opacity 0.3s ease;opacity:0;}
+.fstep.fon .fstep-detail{max-height:200px;opacity:1;}
+.fstep-inner{margin-top:0.55rem;padding:0.85rem 1rem;background:var(--paper-warm);border:1px solid var(--rule);}
+.fstep-desc{font-size:0.8rem;color:var(--ink-muted);line-height:1.65;margin-bottom:0.55rem;font-weight:300;}
+.ftags{display:flex;flex-wrap:wrap;gap:4px;}
+.ftag{font-size:0.65rem;font-weight:600;letter-spacing:0.05em;padding:2px 8px;background:var(--paper-white);border:1px solid var(--rule-strong);color:var(--ink-muted);}
+.art-sidebar{padding:3.5rem 0 4rem 2.75rem;}
+.sb-widget{margin-bottom:2rem;padding-bottom:1.75rem;border-bottom:1px solid var(--rule);}
+.sb-label{font-size:0.62rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.75rem;}
+.sb-num{font-size:3.2rem;font-weight:900;color:var(--ink);line-height:1;}
+.sb-unit{font-size:0.77rem;color:var(--ink-muted);line-height:1.5;margin-top:0.2rem;}
+.sb-title{font-family:'DM Serif Display',serif;font-size:0.95rem;color:var(--ink);margin-bottom:0.35rem;line-height:1.4;}
+.sb-text{font-size:0.78rem;color:var(--ink-muted);line-height:1.6;}
+.chip{display:inline-block;padding:3px 9px;background:var(--paper-warm);border:1px solid var(--rule-strong);font-size:0.68rem;color:var(--ink-soft);margin:2px 2px 2px 0;}
+.mag-footer{background:var(--ink);padding:1.75rem 4rem;display:flex;align-items:center;justify-content:space-between;}
+.footer-logo{font-size:1.3rem;font-weight:900;color:#fff;letter-spacing:0.14em;}
+.footer-text{font-size:0.68rem;color:rgba(255,255,255,0.28);letter-spacing:0.08em;}
+@media(max-width:768px){
+  .cover-hero,.toc-body,.toc-header,.art-body{grid-template-columns:1fr;}
+  .art-hero{padding:3rem 1.5rem 2.5rem;}
+  .art-content{border-right:none;padding-right:0;}
+  .toc-main{padding:2rem 1.5rem;}
+  .cover-left{padding:2.5rem 1.5rem;}
+  .toc-header{padding:2.5rem;}
+  nav{padding:0 1.25rem;}
+  .mag-footer{padding:1.5rem;flex-direction:column;gap:0.6rem;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">SIMIA</div>
+  <ul class="nav-links">
+    <li><a onclick="go('capa')" id="n-capa" class="active">Capa</a></li>
+    <li><a onclick="go('sumario')" id="n-sumario">Sumário</a></li>
+    <li><a onclick="go('artigo')" id="n-artigo" class="art-nav">Artigos</a></li>
+  </ul>
+  <span class="nav-issue">Ed. 01 · Abril 2026</span>
+</nav>
+
+<!-- CAPA -->
+<section id="capa" class="active">
+  <div class="cover-strip">
+    <span><strong>Em destaque:</strong> Render com IA em menos de 1 minuto</span>
+    <span><strong>Especial:</strong> Ferramentas para arquitetos</span>
+    <span><strong>Entrevista:</strong> O futuro dos escritórios de arquitetura</span>
+    <span><strong>Prática:</strong> Timelapse profissional com IA</span>
+  </div>
+  <div class="cover-hero">
+    <div class="cover-left">
+      <div class="cover-bg"></div>
+      <div class="cover-edition">Edição 01 · Abril 2026 · Brasil</div>
+      <div class="cover-title-block">
+        <div class="cover-kicker">A revista da nova arquitetura</div>
+        <div class="cover-main-title">INTELIGÊNCIA<br><em>ARTIFICIAL</em><br>NA ARQUITETURA</div>
+        <p class="cover-subtitle">Como a geração de imagens por IA e os vídeos automatizados estão redefinindo o trabalho do arquiteto moderno.</p>
+        <div class="cover-cta" onclick="go('sumario')">Ver edição completa →</div>
+      </div>
+      <div class="cover-bottom">
+        <div class="cover-num">01</div>
+        <div class="cover-date">Abril 2026</div>
+      </div>
+    </div>
+    <div class="cover-right">
+      <div class="cover-feature-label">Nesta edição</div>
+      <div class="ccard" onclick="go('artigo1')">
+        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=80" alt="Projeto arquitetônico">
+        <div class="ccard-body">
+          <div class="ccard-tag">Destaque</div>
+          <div class="ccard-num">01</div>
+          <div class="ccard-title">Do Terreno à Casa Pronta: Timelapse com IA</div>
+          <div class="ccard-desc">Do desenho do projeto ao vídeo completo — sem obra, sem câmera.</div>
+        </div>
+      </div>
+      <div class="ccard" onclick="go('artigo2')">
+        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80" alt="Render com IA">
+        <div class="ccard-body">
+          <div class="ccard-num">02</div>
+          <div class="ccard-title">Render com IA em Menos de 1 Minuto</div>
+          <div class="ccard-desc">As novas fronteiras do visualismo arquitetônico com IA.</div>
+        </div>
+      </div>
+      <div class="ccard" onclick="go('artigo3')">
+        <img src="https://images.unsplash.com/photo-1460472178825-e5240623afd5?w=600&q=80" alt="Vídeos com IA">
+        <div class="ccard-body">
+          <div class="ccard-num">03</div>
+          <div class="ccard-title">Vídeos de Arquitetura com IA</div>
+          <div class="ccard-desc">Como gerar vídeos cinematográficos sem equipe de produção.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUMÁRIO -->
+<section id="sumario">
+  <div class="toc-header">
+    <div>
+      <div class="toc-header-label">Edição 01 · Abril 2026</div>
+      <div class="toc-header-title">SUMÁRIO</div>
+    </div>
+    <div>
+      <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&q=80" alt="Arquitetura moderna">
+      <p class="toc-header-desc">Uma edição dedicada à revolução silenciosa que a inteligência artificial está promovendo nos escritórios de arquitetura — do croqui ao vídeo final.</p>
+    </div>
+  </div>
+  <div class="toc-body">
+    <div class="toc-main">
+      <div class="toc-section-label">Matérias principais</div>
+      <div class="toc-item" onclick="go('artigo1')">
+        <div class="toc-item-num">01</div>
+        <div>
+          <div class="toc-item-cat">Destaque da edição</div>
+          <div class="toc-item-title">Do Terreno à Casa Pronta: Timelapse de Construção com IA</div>
+          <div class="toc-item-desc">Do desenho do projeto ao vídeo completo — sem obra, sem câmera. Como a IA facilita o entendimento do cliente passo a passo.</div>
+        </div>
+        <div class="toc-item-pg">08</div>
+      </div>
+      <div class="toc-item" onclick="go('artigo2')">
+        <div class="toc-item-num">02</div>
+        <div>
+          <div class="toc-item-cat">Render e Visualização</div>
+          <div class="toc-item-title">Render com IA em Menos de 1 Minuto: o Novo Visualismo Arquitetônico</div>
+          <div class="toc-item-desc">As novas fronteiras do visualismo com IA e como integrá-las ao fluxo de trabalho do escritório.</div>
+        </div>
+        <div class="toc-item-pg">18</div>
+      </div>
+      <div class="toc-item" onclick="go('artigo3')">
+        <div class="toc-item-num">03</div>
+        <div>
+          <div class="toc-item-cat">Vídeo e Marketing</div>
+          <div class="toc-item-title">Vídeos de Arquitetura com IA para Apresentações Profissionais</div>
+          <div class="toc-item-desc">Como gerar vídeos cinematográficos de projetos sem equipe de produção, impressionando clientes.</div>
+        </div>
+        <div class="toc-item-pg">28</div>
+      </div>
+      <div class="toc-item" onclick="go('artigo4')">
+        <div class="toc-item-num">04</div>
+        <div>
+          <div class="toc-item-cat">Gestão e Produtividade</div>
+          <div class="toc-item-title">IA no Escritório: Memoriais, Contratos e Briefings em Minutos</div>
+          <div class="toc-item-desc">Como usar IA para gerar documentos técnicos com agilidade e qualidade profissional.</div>
+        </div>
+        <div class="toc-item-pg">36</div>
+      </div>
+      <div class="toc-item" onclick="go('artigo5')">
+        <div class="toc-item-num">05</div>
+        <div>
+          <div class="toc-item-cat">Entrevista</div>
+          <div class="toc-item-title">«A IA não substitui o arquiteto — ela amplifica sua visão»</div>
+          <div class="toc-item-desc">Arquitetos que transformaram seus processos criativos com inteligência artificial.</div>
+        </div>
+        <div class="toc-item-pg">44</div>
+      </div>
+      <div class="toc-item" onclick="go('artigo6')">
+        <div class="toc-item-num">06</div>
+        <div>
+          <div class="toc-item-cat">Especial</div>
+          <div class="toc-item-title">50 Ferramentas de IA para Arquitetos: o Guia Essencial de 2026</div>
+          <div class="toc-item-desc">Curadoria das melhores ferramentas por categoria: render, vídeo, planta, gestão e apresentação.</div>
+        </div>
+        <div class="toc-item-pg">52</div>
+      </div>
+    </div>
+    <div class="toc-sidebar">
+      <div class="toc-section-label">Números desta edição</div>
+      <div class="toc-stat"><div class="toc-stat-num">6</div><div class="toc-stat-unit">matérias exclusivas</div></div>
+      <hr class="toc-hr">
+      <div class="toc-stat"><div class="toc-stat-num">50+</div><div class="toc-stat-unit">ferramentas de IA avaliadas</div></div>
+      <hr class="toc-hr">
+      <div class="toc-stat"><div class="toc-stat-num">4</div><div class="toc-stat-unit">arquitetos entrevistados</div></div>
+      <hr class="toc-hr">
+      <div class="toc-section-label" style="margin-top:1.5rem;">Editorial</div>
+      <div class="toc-sb-title">Uma nova era para a arquitetura</div>
+      <p class="toc-sb-text">A SIMIA nasce do entendimento de que a IA não é uma ameaça — é a mais poderosa extensão criativa que já tivemos.</p>
+      <hr class="toc-hr">
+      <div class="toc-section-label">Próxima edição</div>
+      <div class="toc-sb-title">BIM + IA: automação completa de projetos</div>
+      <p class="toc-sb-text" style="margin-top:0.3rem;">Dezembro 2026</p>
+    </div>
+  </div>
+  <div class="mag-footer">
+    <div class="footer-logo">SIMIA</div>
+    <div class="footer-text">Inteligência Artificial na Arquitetura · Ed. 01 · Abril 2026</div>
+  </div>
+</section>
+
+<!-- ARTIGO 1 -->
+<section id="artigo1">
+  <div class="art-hero">
+    <div class="art-cat">Destaque da edição · Pág. 08</div>
+    <h1 class="art-title">Do Terreno à Casa Pronta:<br><em>Timelapse de Construção com IA</em></h1>
+    <p class="art-lede">Sem obra, sem canteiro, sem câmera — como transformar o desenho do projeto em uma sequência visual completa do processo construtivo, gerada inteiramente por inteligência artificial.</p>
+    <div class="art-meta">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="art-avatar">SM</div>
+        <div><div class="art-author-name">Arq. Silvia Moura</div><div class="art-author-role">Arquitetura e Tecnologia</div></div>
+      </div>
+      <div class="art-readtime">Leitura: 8 minutos</div>
+    </div>
+  </div>
+  <div class="art-body">
+    <div class="art-content">
+      <div class="art-fig"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=900&q=80" style="height:300px;" alt="Projeto arquitetônico"><div class="art-caption"><strong>Do desenho à realidade</strong>A partir do projeto técnico, a IA gera cada etapa visual da construção — sem obra em andamento.</div></div>
+      <p class="art-p">Apresentar um projeto ao cliente sempre foi um dos maiores desafios da arquitetura. Plantas, cortes e perspectivas estáticas exigem uma capacidade de leitura técnica que a maioria não tem. E se fosse possível mostrar, passo a passo, como a construção vai acontecer — antes mesmo de qualquer obra começar?</p>
+      <p class="art-p">É exatamente isso que a inteligência artificial torna possível hoje. A partir do desenho do projeto — sem precisar tirar uma única foto de obra, sem canteiro, sem operários — é possível gerar uma sequência visual completa do processo construtivo: do terreno vazio à casa pronta.</p>
+      <h2 class="art-h2">Por que o timelapse gerado por IA transforma a relação com o cliente?</h2>
+      <p class="art-p">Diferente de uma renderização estática, o timelapse construtivo gerado por IA mostra o projeto em movimento. O cliente deixa de precisar imaginar e passa a ver. Isso reduz drasticamente as dúvidas durante a obra, aumenta a confiança no profissional e valoriza o trabalho do arquiteto antes da primeira pedra ser assentada.</p>
+      <div class="art-pullquote"><p>"O cliente não precisa ler planta. Ele precisa ver a casa nascendo. A IA nos dá exatamente isso — antes mesmo da obra começar."</p><cite>— Arq. Silvia Moura, SIMIA Ed. 01</cite></div>
+      <div class="art-fig"><img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=900&q=80" style="height:250px;object-position:center 30%;" alt="Visualização gerada por IA"><div class="art-caption"><strong>Resultado final</strong>Visualização gerada por IA a partir da planta baixa — encanta o cliente antes de qualquer obra.</div></div>
+      <h2 class="art-h2">O fluxo em 5 etapas com IA</h2>
+      <div class="flow-block">
+        <div class="fprog-bar"><div class="fprog-fill" id="fprog1"></div></div>
+        <div id="fsteps1">
+          <div class="fstep fon" onclick="ftog('1',0)"><div class="fstep-left"><div class="fstep-badge">1</div><div class="fline"></div></div><div class="fstep-body"><div class="fstep-title">Transformação da imagem</div><div class="fstep-detail"><div class="fstep-inner"><p class="fstep-desc">Sua imagem — seja ela como for — se torna realista e preparada para o próximo passo.</p><div class="ftags"><span class="ftag">Qualquer imagem</span><span class="ftag">Fotorrealismo</span><span class="ftag">IA generativa</span></div></div></div></div></div>
+          <div class="fstep" onclick="ftog('1',1)"><div class="fstep-left"><div class="fstep-badge">2</div><div class="fline"></div></div><div class="fstep-body"><div class="fstep-title">A construção nasce</div><div class="fstep-detail"><div class="fstep-inner"><p class="fstep-desc">Cada fase da construção ganha vida visualmente — do zero à estrutura completa.</p><div class="ftags"><span class="ftag">Fundação</span><span class="ftag">Estrutura</span><span class="ftag">Cobertura</span><span class="ftag">Acabamento</span></div></div></div></div></div>
+          <div class="fstep" onclick="ftog('1',2)"><div class="fstep-left"><div class="fstep-badge">3</div><div class="fline"></div></div><div class="fstep-body"><div class="fstep-title">Sequência em movimento</div><div class="fstep-detail"><div class="fstep-inner"><p class="fstep-desc">As imagens ganham fluidez e se transformam em uma construção acontecendo em tempo real.</p><div class="ftags"><span class="ftag">Animação</span><span class="ftag">Transições suaves</span><span class="ftag">Timelapse</span></div></div></div></div></div>
+          <div class="fstep" onclick="ftog('1',3)"><div class="fstep-left"><div class="fstep-badge">4</div><div class="fline"></div></div><div class="fstep-body"><div class="fstep-title">Trilha e narração</div><div class="fstep-detail"><div class="fstep-inner"><p class="fstep-desc">Música e texto gerados por IA completam a experiência e aproximam o cliente do projeto.</p><div class="ftags"><span class="ftag">Música com IA</span><span class="ftag">Narração</span></div></div></div></div></div>
+          <div class="fstep" onclick="ftog('1',4)"><div class="fstep-left"><div class="fstep-badge fbadge-final"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polygon points="2,1 11,6 2,11" fill="#fff"/></svg></div></div><div class="fstep-body"><div class="fstep-title">Vídeo final publicável</div><div class="fstep-detail"><div class="fstep-inner"><p class="fstep-desc">Pronto para encantar clientes, publicar nas redes ou usar em propostas comerciais.</p><div class="ftags"><span class="ftag">Para o cliente</span><span class="ftag">Redes sociais</span><span class="ftag">Proposta comercial</span></div></div></div></div></div>
+        </div>
+      </div>
+      <div class="art-fig"><img src="https://images.unsplash.com/photo-1460472178825-e5240623afd5?w=900&q=80" style="height:230px;object-position:center 60%;" alt="Sequência construtiva"><div class="art-caption"><strong>Sequência construtiva</strong>Cada fase é gerada visualmente pela IA, criando uma narrativa clara e acessível para o cliente.</div></div>
+      <h2 class="art-h2">A tecnologia por trás da mágica</h2>
+      <p class="art-p">O mercado de IA para geração de imagens e vídeo evoluiu de forma impressionante em 2025 e 2026. As ferramentas disponíveis hoje permitem criar transições suaves entre estados visuais — exatamente o que precisamos para simular o avanço de uma construção.</p>
+      <p class="art-p">O processo é surpreendentemente acessível: com o desenho do projeto como referência visual, a IA gera cada etapa construtiva com coerência e realismo. O resultado é um vídeo que o cliente assiste e compreende imediatamente.</p>
+      <h2 class="art-h2">O projeto como matéria-prima</h2>
+      <p class="art-p">Quanto mais detalhado e bem resolvido o projeto, mais fiel e impressionante será o timelapse gerado. Isso significa que o timelapse com IA não é apenas uma ferramenta de comunicação: é também um exercício de refinamento do projeto.</p>
+    </div>
+    <div class="art-sidebar">
+      <div class="sb-widget"><img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400&q=80" style="width:100%;height:165px;object-fit:cover;display:block;margin-bottom:0.75rem;" alt="Projeto"><div class="sb-label">Imagem gerada por IA</div><p class="sb-text">Visualização arquitetônica criada a partir de planta baixa — sem renderizador tradicional.</p></div>
+      <div class="sb-widget"><div class="sb-label">Engajamento</div><div class="sb-num">340%</div><div class="sb-unit">de aumento médio em posts com timelapse vs. fotos estáticas no LinkedIn</div></div>
+      <div class="sb-widget"><div class="sb-label">Mini-curso</div><div class="sb-title">Do Terreno à Casa Pronta</div><p class="sb-text">Silvia Moura lança em maio o curso com 5 módulos práticos — do desenho ao timelapse gerado por IA.</p></div>
+      <div class="sb-widget" style="border-bottom:none;"><div class="sb-label">Leia também</div><div class="sb-title" style="cursor:pointer;border-bottom:1px solid var(--rule);padding-bottom:0.65rem;margin-bottom:0.65rem;" onclick="go('artigo2')">→ Render com IA em Menos de 1 Minuto</div><div class="sb-title" style="cursor:pointer;" onclick="go('artigo6')">→ 50 Ferramentas de IA para Arquitetos</div></div>
+    </div>
+  </div>
+  <div class="mag-footer"><div class="footer-logo">SIMIA</div><div class="footer-text">Inteligência Artificial na Arquitetura · Ed. 01 · Abril 2026</div></div>
+</section>
+
+<!-- ARTIGO 2 -->
+<section id="artigo2">
+  <div class="art-hero">
+    <div class="art-cat">Render e Visualização · Pág. 18</div>
+    <h1 class="art-title">Render com IA em<br><em>Menos de 1 Minuto</em></h1>
+    <p class="art-lede">O novo visualismo arquitetônico chegou para transformar a forma como apresentamos projetos — rápido, acessível e com qualidade que rivaliza com as melhores renderizações tradicionais.</p>
+    <div class="art-meta">
+      <div style="display:flex;align-items:center;gap:10px;"><div class="art-avatar">SM</div><div><div class="art-author-name">Arq. Silvia Moura</div><div class="art-author-role">Arquitetura e Tecnologia</div></div></div>
+      <div class="art-readtime">Leitura: 6 minutos</div>
+    </div>
+  </div>
+  <div class="art-body">
+    <div class="art-content">
+      <div class="art-fig"><img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=900&q=80" style="height:300px;object-position:center 30%;" alt="Render com IA"><div class="art-caption"><strong>Render gerado por IA</strong>Resultado obtido em menos de 60 segundos a partir de uma descrição textual e referência do projeto.</div></div>
+      <p class="art-p">Durante anos, produzir um render de qualidade exigiu horas de modelagem, configuração de iluminação, processamento e pós-produção. Um único render fotorrealista podia levar um dia inteiro — ou custar centenas de reais terceirizando para um visualizador especializado. Esse tempo acabou.</p>
+      <p class="art-p">Com a IA generativa aplicada à visualização arquitetônica, é possível obter imagens fotorrealistas de projetos em menos de um minuto, a partir de uma descrição textual, de um croqui ou de uma planta baixa. A qualidade alcançada hoje rivaliza com renderizações tradicionais.</p>
+      <h2 class="art-h2">O que mudou na visualização arquitetônica?</h2>
+      <p class="art-p">A geração de imagens por IA funciona a partir de modelos treinados em milhões de referências visuais — incluindo fotografias de arquitetura, renders profissionais e projetos construídos. Ao receber uma descrição do projeto, o modelo sintetiza uma imagem que combina as características solicitadas com o repertório visual aprendido.</p>
+      <div class="art-pullquote"><p>"Em menos de um minuto, consigo mostrar ao cliente três opções de fachada com materiais diferentes. Antes, isso levaria dois dias."</p><cite>— Arq. Silvia Moura, SIMIA Ed. 01</cite></div>
+      <div class="art-fig"><img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=900&q=80" style="height:260px;" alt="Variações de fachada"><div class="art-caption"><strong>Variações de fachada</strong>A mesma volumetria com diferentes materiais e iluminações — gerada em minutos com IA.</div></div>
+      <h2 class="art-h2">Como aplicar no dia a dia do escritório</h2>
+      <p class="art-p">O render por IA não substitui a modelagem técnica — ele complementa o processo criativo. Use-o nas fases iniciais de apresentação ao cliente, para validar conceitos e explorar variações de materiais, volumetria e atmosfera antes de avançar para a documentação executiva.</p>
+      <p class="art-p">O resultado é uma comunicação mais fluida, decisões mais rápidas e clientes mais seguros. O arquiteto ganha tempo para o que realmente importa: criar e aprimorar o projeto.</p>
+    </div>
+    <div class="art-sidebar">
+      <div class="sb-widget"><div class="sb-label">Tempo médio</div><div class="sb-num" style="font-size:2.4rem;">&lt;1min</div><div class="sb-unit">para gerar um render fotorrealista com IA a partir de descrição textual</div></div>
+      <div class="sb-widget"><div class="sb-label">Aplicações</div><span class="chip">Fachadas</span><span class="chip">Interiores</span><span class="chip">Paisagismo</span><span class="chip">Variações de material</span><span class="chip">Ambientação noturna</span></div>
+      <div class="sb-widget" style="border-bottom:none;"><div class="sb-label">Leia também</div><div class="sb-title" style="cursor:pointer;border-bottom:1px solid var(--rule);padding-bottom:0.65rem;margin-bottom:0.65rem;" onclick="go('artigo1')">→ Do Terreno à Casa Pronta com IA</div><div class="sb-title" style="cursor:pointer;" onclick="go('artigo3')">→ Vídeos de Arquitetura com IA</div></div>
+    </div>
+  </div>
+  <div class="mag-footer"><div class="footer-logo">SIMIA</div><div class="footer-text">Inteligência Artificial na Arquitetura · Ed. 01 · Abril 2026</div></div>
+</section>
+
+<!-- ARTIGO 3 -->
+<section id="artigo3">
+  <div class="art-hero">
+    <div class="art-cat">Vídeo e Marketing · Pág. 28</div>
+    <h1 class="art-title">Vídeos de Arquitetura com IA:<br><em>Apresentações que Vendem</em></h1>
+    <p class="art-lede">Como gerar vídeos cinematográficos de projetos sem equipe de produção — impressionando clientes e elevando o valor percebido do seu escritório.</p>
+    <div class="art-meta">
+      <div style="display:flex;align-items:center;gap:10px;"><div class="art-avatar">SM</div><div><div class="art-author-name">Arq. Silvia Moura</div><div class="art-author-role">Arquitetura e Tecnologia</div></div></div>
+      <div class="art-readtime">Leitura: 7 minutos</div>
+    </div>
+  </div>
+  <div class="art-body">
+    <div class="art-content">
+      <div class="art-fig"><img src="https://images.unsplash.com/photo-1460472178825-e5240623afd5?w=900&q=80" style="height:300px;object-position:center 40%;" alt="Vídeo arquitetônico"><div class="art-caption"><strong>Vídeo gerado por IA</strong>Sequência cinematográfica de um projeto residencial criada sem câmera ou equipe de produção.</div></div>
+      <p class="art-p">Um vídeo bem produzido de um projeto arquitetônico transmite algo que nenhuma imagem estática consegue: movimento, escala, atmosfera e emoção. Por muito tempo, esse recurso esteve disponível apenas para grandes escritórios com orçamento para produção audiovisual profissional. A IA democratizou esse acesso.</p>
+      <p class="art-p">Hoje qualquer arquiteto pode criar um vídeo cinematográfico do seu projeto — com movimentos de câmera suaves, iluminação dramática e trilha sonora — diretamente a partir das imagens ou renders do projeto.</p>
+      <h2 class="art-h2">Vídeo como ferramenta de venda</h2>
+      <p class="art-p">O vídeo gerado por IA não é apenas um recurso estético — é uma ferramenta de conversão. Clientes que assistem a um vídeo do projeto antes de assinar o contrato apresentam mais clareza sobre o que estão contratando, menos objeções durante a obra e maior satisfação com o resultado final.</p>
+      <div class="art-pullquote"><p>"O vídeo faz o cliente sentir que já mora na casa antes de qualquer tijolo ser assentado. É a ferramenta de aprovação mais poderosa que já usei."</p><cite>— Arq. Silvia Moura, SIMIA Ed. 01</cite></div>
+      <div class="art-fig"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=900&q=80" style="height:240px;" alt="Projeto apresentado em vídeo"><div class="art-caption"><strong>Da imagem ao vídeo</strong>O mesmo projeto estático transformado em uma experiência cinematográfica pela IA.</div></div>
+      <h2 class="art-h2">O fluxo de produção sem equipe</h2>
+      <p class="art-p">O processo começa com os renders ou imagens já existentes do projeto. A IA é capaz de interpolar entre os quadros, criando movimentos de câmera suaves e naturais. Em seguida, uma trilha sonora gerada por IA completa a experiência. O resultado final pode ser exportado em qualquer formato para apresentação ao cliente ou publicação nas redes.</p>
+    </div>
+    <div class="art-sidebar">
+      <div class="sb-widget"><div class="sb-label">Impacto em aprovação</div><div class="sb-num">2×</div><div class="sb-unit">mais chances de aprovação imediata quando o cliente assiste a um vídeo do projeto</div></div>
+      <div class="sb-widget"><div class="sb-label">Formatos de entrega</div><span class="chip">Instagram Reels</span><span class="chip">YouTube</span><span class="chip">Apresentação</span><span class="chip">WhatsApp</span></div>
+      <div class="sb-widget" style="border-bottom:none;"><div class="sb-label">Leia também</div><div class="sb-title" style="cursor:pointer;border-bottom:1px solid var(--rule);padding-bottom:0.65rem;margin-bottom:0.65rem;" onclick="go('artigo1')">→ Do Terreno à Casa Pronta com IA</div><div class="sb-title" style="cursor:pointer;" onclick="go('artigo2')">→ Render com IA em Menos de 1 Minuto</div></div>
+    </div>
+  </div>
+  <div class="mag-footer"><div class="footer-logo">SIMIA</div><div class="footer-text">Inteligência Artificial na Arquitetura · Ed. 01 · Abril 2026</div></div>
+</section>
+
+<!-- ARTIGO 4 -->
+<section id="artigo4">
+  <div class="art-hero">
+    <div class="art-cat">Gestão e Produtividade · Pág. 36</div>
+    <h1 class="art-title">IA no Escritório:<br><em>Memoriais, Contratos e Briefings</em></h1>
+    <p class="art-lede">Como usar inteligência artificial para gerar documentos técnicos completos em minutos — liberando o arquiteto para o que realmente importa: criar.</p>
+    <div class="art-meta">
+      <div style="display:flex;align-items:center;gap:10px;"><div class="art-avatar">SM</div><div><div class="art-author-name">Arq. Silvia Moura</div><div class="art-author-role">Arquitetura e Tecnologia</div></div></div>
+      <div class="art-readtime">Leitura: 5 minutos</div>
+    </div>
+  </div>
+  <div class="art-body">
+    <div class="art-content">
+      <div class="art-fig"><img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=80" style="height:280px;" alt="Escritório de arquitetura"><div class="art-caption"><strong>Produtividade ampliada</strong>Documentos que levavam horas são gerados em minutos — com linguagem técnica e estrutura profissional.</div></div>
+      <p class="art-p">Grande parte do tempo de um arquiteto é consumida por tarefas administrativas e documentais: redigir memoriais descritivos, elaborar contratos, preparar briefings de reunião, escrever e-mails técnicos. São atividades necessárias, mas que drenam energia criativa e produtiva. A inteligência artificial muda essa equação.</p>
+      <p class="art-p">Com os prompts certos, é possível gerar em minutos documentos que antes levavam horas — com linguagem técnica adequada, estrutura profissional e adaptados à realidade de cada projeto. O arquiteto revisa, personaliza e assina. A IA faz o trabalho bruto.</p>
+      <h2 class="art-h2">O que a IA gera com excelência</h2>
+      <ul class="art-list">
+        <li><strong>Memorial descritivo:</strong> descrição completa de materiais, sistemas construtivos e acabamentos.</li>
+        <li><strong>Briefing de reunião:</strong> roteiro estruturado para apresentação ao cliente com pontos de aprovação.</li>
+        <li><strong>Proposta comercial:</strong> documento com escopo de serviços, cronograma e honorários formatados.</li>
+        <li><strong>E-mails técnicos:</strong> comunicações claras e formais com clientes, construtores e fornecedores.</li>
+        <li><strong>Especificações de materiais:</strong> fichas técnicas detalhadas para cada elemento do projeto.</li>
+      </ul>
+      <div class="art-pullquote"><p>"Reduzi o tempo de elaboração de memoriais de 3 horas para 20 minutos. Esse tempo voltou para o projeto."</p><cite>— Arq. Silvia Moura, SIMIA Ed. 01</cite></div>
+      <div class="art-fig"><img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=900&q=80" style="height:220px;object-position:center 70%;" alt="Documentação técnica"><div class="art-caption"><strong>Documentação técnica</strong>Da especificação ao memorial — gerado em minutos com IA e revisado pelo arquiteto.</div></div>
+      <h2 class="art-h2">Como começar hoje</h2>
+      <p class="art-p">O ponto de partida é simples: descreva o projeto em linguagem natural para a IA — programa, área, estilo, materiais — e peça o documento que precisa. O resultado inicial já tem estrutura profissional. Com poucos ajustes, está pronto para envio ao cliente ou registro em processo.</p>
+    </div>
+    <div class="art-sidebar">
+      <div class="sb-widget"><div class="sb-label">Economia de tempo</div><div class="sb-num">85%</div><div class="sb-unit">de redução no tempo médio de elaboração de documentos técnicos com IA</div></div>
+      <div class="sb-widget"><div class="sb-label">Documentos suportados</div><span class="chip">Memorial</span><span class="chip">Contrato</span><span class="chip">Briefing</span><span class="chip">Proposta</span><span class="chip">E-mail técnico</span></div>
+      <div class="sb-widget" style="border-bottom:none;"><div class="sb-label">Leia também</div><div class="sb-title" style="cursor:pointer;border-bottom:1px solid var(--rule);padding-bottom:0.65rem;margin-bottom:0.65rem;" onclick="go('artigo6')">→ 50 Ferramentas de IA para Arquitetos</div><div class="sb-title" style="cursor:pointer;" onclick="go('artigo5')">→ Entrevista: A IA amplifica sua visão</div></div>
+    </div>
+  </div>
+  <div class="mag-footer"><div class="footer-logo">SIMIA</div><div class="footer-text">Inteligência Artificial na Arquitetura · Ed. 01 · Abril 2026</div></div>
+</section>
+
+<!-- ARTIGO 5 -->
+<section id="artigo5">
+  <div class="art-hero">
+    <div class="art-cat">Entrevista · Pág. 44</div>
+    <h1 class="art-title">«A IA não substitui o arquiteto —<br><em>ela amplifica sua visão»</em></h1>
+    <p class="art-lede">Quatro arquitetos que transformaram seus processos criativos com inteligência artificial compartilham aprendizados, desafios e o que mudou para sempre em seus escritórios.</p>
+    <div class="art-meta">
+      <div style="display:flex;align-items:center;gap:10px;"><div class="art-avatar">SM</div><div><div class="art-author-name">Arq. Silvia Moura</div><div class="art-author-role">Arquitetura e Tecnologia</div></div></div>
+      <div class="art-readtime">Leitura: 9 minutos</div>
+    </div>
+  </div>
+  <div class="art-body">
+    <div class="art-content">
+      <div class="art-fig"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=900&q=80" style="height:280px;object-position:center 20%;" alt="Arquitetos e IA"><div class="art-caption"><strong>Uma nova geração</strong>Profissionais que incorporaram a IA ao fluxo criativo relatam ganhos em velocidade, qualidade e satisfação dos clientes.</div></div>
+      <p class="art-p">O debate sobre o impacto da inteligência artificial na arquitetura costuma oscilar entre dois extremos: a utopia de que a IA vai resolver tudo e o temor de que vai substituir os profissionais. A realidade é mais interessante e nuançada do que qualquer um dos extremos.</p>
+      <p class="art-p">Conversamos com quatro arquitetos que já passaram pela curva de aprendizado — onde a IA é uma extensão natural do processo criativo, não uma ameaça nem uma solução mágica.</p>
+      <h2 class="art-h2">O que realmente muda no processo criativo</h2>
+      <p class="art-p">O consenso entre os entrevistados é que a IA não altera o pensamento arquitetônico — ela reduz o atrito entre a ideia e a sua representação. O esboço mental do arquiteto chega ao papel com muito mais velocidade e fidelidade. Isso libera energia para o que a IA não consegue fazer: entender o cliente, interpretar o terreno, resolver o programa com sensibilidade humana.</p>
+      <div class="art-pullquote"><p>"A IA não pensa por mim. Ela executa mais rápido o que eu já sei fazer. O arquiteto que não dominar isso vai perder espaço para o que domina."</p><cite>— Arquiteto entrevistado, SIMIA Ed. 01</cite></div>
+      <div class="art-fig"><img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=900&q=80" style="height:240px;" alt="Processo criativo com IA"><div class="art-caption"><strong>Processo ampliado</strong>A IA como extensão do raciocínio arquitetônico — não como substituto da criatividade.</div></div>
+      <h2 class="art-h2">A confiança nas apresentações</h2>
+      <p class="art-p">A grande mudança relatada não é na criatividade, mas na confiança durante as apresentações. Com imagens de alta qualidade geradas rapidamente, os arquitetos chegam às reuniões com mais opções visuais, mais segurança e clientes mais engajados no processo de decisão.</p>
+      <p class="art-p">Os quatro entrevistados concordam: o maior benefício não é a velocidade — é a capacidade de explorar mais ideias antes de se comprometer com uma direção. A IA democratiza a experimentação criativa dentro do próprio escritório.</p>
+    </div>
+    <div class="art-sidebar">
+      <div class="sb-widget"><div class="sb-label">Perfil dos entrevistados</div><div class="sb-num">4</div><div class="sb-unit">arquitetos com escritórios de diferentes portes e especialidades no Brasil</div></div>
+      <div class="sb-widget"><div class="sb-label">Temas abordados</div><span class="chip">Processo criativo</span><span class="chip">Apresentações</span><span class="chip">Gestão do escritório</span><span class="chip">Relação com clientes</span></div>
+      <div class="sb-widget" style="border-bottom:none;"><div class="sb-label">Leia também</div><div class="sb-title" style="cursor:pointer;border-bottom:1px solid var(--rule);padding-bottom:0.65rem;margin-bottom:0.65rem;" onclick="go('artigo1')">→ Do Terreno à Casa Pronta com IA</div><div class="sb-title" style="cursor:pointer;" onclick="go('artigo2')">→ Render com IA em Menos de 1 Minuto</div></div>
+    </div>
+  </div>
+  <div class="mag-footer"><div class="footer-logo">SIMIA</div><div class="footer-text">Inteligência Artificial na Arquitetura · Ed. 01 · Abril 2026</div></div>
+</section>
+
+<!-- ARTIGO 6 -->
+<section id="artigo6">
+  <div class="art-hero">
+    <div class="art-cat">Especial · Pág. 52</div>
+    <h1 class="art-title">50 Ferramentas de IA<br><em>para Arquitetos — 2026</em></h1>
+    <p class="art-lede">Curadoria comentada das melhores ferramentas de inteligência artificial por categoria: render, vídeo, planta, gestão e apresentação.</p>
+    <div class="art-meta">
+      <div style="display:flex;align-items:center;gap:10px;"><div class="art-avatar">SM</div><div><div class="art-author-name">Arq. Silvia Moura</div><div class="art-author-role">Arquitetura e Tecnologia</div></div></div>
+      <div class="art-readtime">Leitura: 10 minutos</div>
+    </div>
+  </div>
+  <div class="art-body">
+    <div class="art-content">
+      <div class="art-fig"><img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=900&q=80" style="height:280px;" alt="Ferramentas de IA"><div class="art-caption"><strong>O ecossistema de 2026</strong>Dezenas de ferramentas especializadas para cada etapa do processo arquitetônico.</div></div>
+      <p class="art-p">O ecossistema de ferramentas de inteligência artificial cresceu de forma vertiginosa nos últimos dois anos. Para o arquiteto, isso representa tanto uma oportunidade enorme quanto um desafio de curadoria: com tantas opções disponíveis, como escolher as ferramentas certas para o seu fluxo de trabalho?</p>
+      <p class="art-p">Esta seleção foi organizada por categoria de uso e avaliada com base em três critérios: qualidade dos resultados para uso arquitetônico, curva de aprendizado e relação custo-benefício para escritórios de pequeno e médio porte.</p>
+      <h2 class="art-h2">Por categoria de uso</h2>
+      <ul class="art-list">
+        <li><strong>Render e visualização:</strong> geração de imagens fotorrealistas a partir de texto, sketch ou planta baixa.</li>
+        <li><strong>Vídeo e animação:</strong> tours virtuais, timelapses e vídeos cinematográficos de projetos.</li>
+        <li><strong>Planta e implantação:</strong> assistentes que interpretam programas e sugerem layouts e zoneamentos.</li>
+        <li><strong>Documentação técnica:</strong> geradores de memoriais, especificações e documentos com linguagem arquitetônica.</li>
+        <li><strong>Apresentação e marketing:</strong> criadores de materiais visuais, propostas e conteúdo para redes sociais.</li>
+        <li><strong>Gestão de projetos:</strong> ferramentas de organização, cronograma e comunicação com clientes.</li>
+      </ul>
+      <div class="art-pullquote"><p>"Não é preciso usar 50 ferramentas. Basta dominar 5 ou 6 que se encaixem perfeitamente no seu processo."</p><cite>— Arq. Silvia Moura, SIMIA Ed. 01</cite></div>
+      <div class="art-fig"><img src="https://images.unsplash.com/photo-1460472178825-e5240623afd5?w=900&q=80" style="height:220px;object-position:center 50%;" alt="Ferramentas em uso"><div class="art-caption"><strong>Curadoria 2026</strong>Cada ferramenta avaliada por uso real em escritórios de arquitetura brasileiros.</div></div>
+      <h2 class="art-h2">Como montar seu stack ideal</h2>
+      <p class="art-p">O ponto de partida é identificar em qual etapa do processo você perde mais tempo hoje. Se for na apresentação visual ao cliente, comece pelas ferramentas de render. Se for na documentação, comece pelos assistentes de texto. A curva de aprendizado de cada ferramenta é menor do que parece — e o retorno, imediato.</p>
+      <p class="art-p">A curadoria completa com as 50 ferramentas, comentários detalhados, planos e preços está disponível no guia digital exclusivo para assinantes da SIMIA.</p>
+    </div>
+    <div class="art-sidebar">
+      <div class="sb-widget"><div class="sb-label">Curadoria desta edição</div><div class="sb-num">50+</div><div class="sb-unit">ferramentas avaliadas e classificadas por uso arquitetônico real</div></div>
+      <div class="sb-widget"><div class="sb-label">Categorias</div><span class="chip">Render</span><span class="chip">Vídeo</span><span class="chip">Planta</span><span class="chip">Documentação</span><span class="chip">Marketing</span><span class="chip">Gestão</span></div>
+      <div class="sb-widget" style="border-bottom:none;"><div class="sb-label">Leia também</div><div class="sb-title" style="cursor:pointer;border-bottom:1px solid var(--rule);padding-bottom:0.65rem;margin-bottom:0.65rem;" onclick="go('artigo4')">→ IA no Escritório: Memoriais e Contratos</div><div class="sb-title" style="cursor:pointer;" onclick="go('artigo1')">→ Do Terreno à Casa Pronta com IA</div></div>
+    </div>
+  </div>
+  <div class="mag-footer"><div class="footer-logo">SIMIA</div><div class="footer-text">Inteligência Artificial na Arquitetura · Ed. 01 · Abril 2026</div></div>
+</section>
+
+<script>
+const artNavIds = ['artigo1','artigo2','artigo3','artigo4','artigo5','artigo6'];
+
+function go(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  if (id === 'capa') document.getElementById('n-capa').classList.add('active');
+  else if (id === 'sumario') document.getElementById('n-sumario').classList.add('active');
+  else document.getElementById('n-artigo').classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function ftog(art, i) {
+  const steps = document.querySelectorAll('#fsteps'+art+' .fstep');
+  const was = steps[i].classList.contains('fon');
+  steps.forEach(s => s.classList.remove('fon'));
+  if (!was) steps[i].classList.add('fon');
+  document.getElementById('fprog'+art).style.width = (was ? 0 : (i+1)/5*100) + '%';
+}
+</script>
+</body>
+</html>
